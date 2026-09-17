@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: spendwise
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/spendwise?useSSL=false&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database: mysql
+    open-in-view: false
+    show-sql: false
+    generate-ddl: true
+
+    hibernate:
+      ddl-auto: update
+
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+  data:
+    jpa:
+      repositories:
+        enabled: true
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+
+server:
+  port: 8080
+  #servlet:
+    #context-path: /spendwise
