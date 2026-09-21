@@ -11,10 +11,10 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	
 	Optional <User> findByEmailOrPhone(String email, String phone);
 	
-	User findByPhoneOrEmail(String phone, String email);
-	User findByEmailOrPhoneAndPassword(String email,String phone,String password);
-    User findByPasswordAndEmailOrPhone(String password,String email,String phone);
-    User findById(long userid);	
+	//User findByPhoneOrEmail(String phone, String email);
+	//User findByEmailOrPhoneAndPassword(String email,String phone,String password);
+    //User findByPasswordAndEmailOrPhone(String password,String email,String phone);
+    //User findById(long userid);	
 	User findByPhone(String phone);
 	@SuppressWarnings("rawtypes")
 	List<User> findByRoles(List roles);

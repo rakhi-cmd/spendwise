@@ -104,6 +104,13 @@
 		    <version>0.13.0</version>
 		    <scope>runtime</scope>
 		</dependency>
+		
+		<!-- Thymeleaf Security Extras for Role-based UI visibility -->
+	    <dependency>
+	        <groupId>org.thymeleaf.extras</groupId>
+	        <artifactId>thymeleaf-extras-springsecurity6</artifactId>
+	    </dependency>
+	    
 	</dependencies>
 
 	<build>

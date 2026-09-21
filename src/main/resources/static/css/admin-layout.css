@@ -1,0 +1,85 @@
+@charset "UTF-8";
+/* =========================================
+   SpendWise Admin Layout
+   ========================================= */
+
+
+/* Brand */
+
+.brand-text {
+    font-size: 1.35rem;
+    font-weight: 600;
+}
+
+
+/* User icon */
+
+.admin-user-icon {
+    font-size: 55px;
+    margin-bottom: 8px;
+}
+
+
+/* User header */
+
+.user-header {
+    text-align: center;
+    padding: 20px;
+}
+
+
+/* Sidebar */
+
+.app-sidebar {
+    min-height: 100vh;
+}
+
+
+/* Sidebar logout button */
+
+.sidebar-logout {
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: left;
+    color: inherit;
+}
+
+
+/* Make logout look like normal sidebar item */
+
+.sidebar-logout:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+/* Footer */
+
+.app-footer {
+    padding: 15px;
+}
+
+
+/* Dashboard content */
+
+.app-content {
+    padding: 20px;
+}
+
+
+/* Cards */
+
+.small-box {
+    border-radius: 10px;
+}
+
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+    .app-content {
+        padding: 10px;
+    }
+
+}

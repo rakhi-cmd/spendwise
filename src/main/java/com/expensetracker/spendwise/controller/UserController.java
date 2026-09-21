@@ -38,5 +38,12 @@ public class UserController {
 		return modelAndView ;
 	}
 	
+	@RequestMapping(value = {"/403"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView error403(HttpServletRequest request) {
+		System.out.println("error403 page");
+		ModelAndView modelAndView = new ModelAndView("403");
+		return modelAndView ;
+	}
+	
 
 }
