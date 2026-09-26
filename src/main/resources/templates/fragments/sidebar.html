@@ -1,7 +1,7 @@
 <aside th:fragment="sidebar" class="app-sidebar bg-dark shadow" data-bs-theme="dark">
 	<!-- BRAND -->
 	<div class="sidebar-brand">
-		<a th:href="@{/admin/dashboard}" class="brand-link"> 
+		<a th:href="@{/dashboard}" class="brand-link"> 
 			<span class="brand-text fw-light"> SpendWise </span>
 		</a>
 	</div>
@@ -11,7 +11,7 @@
 			<ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu">
 				<!-- DASHBOARD -->
 				<li class="nav-item">
-					<a th:href="@{/admin/dashboard}" class="nav-link">
+					<a th:href="@{/dashboard}" class="nav-link">
 						<i class="nav-icon bi bi-speedometer2"></i>
 						<p>Dashboard</p>
 					</a>
@@ -30,99 +30,60 @@
 						<p>Expenses</p>
 					</a>
 				</li>
-
-
 				<!-- CATEGORIES -->
-
-				<li class="nav-item"><a th:href="@{/admin/categories}"
-					class="nav-link"> <i class="nav-icon bi bi-tags"></i>
-
-						<p>Categories</p>
-
-				</a></li>
-
-
-				<!-- REPORTS -->
-
-				<li class="nav-item"><a href="#" class="nav-link"> <i
-						class="nav-icon bi bi-bar-chart"></i>
-
-						<p>
-
-							Reports <i class="nav-arrow bi bi-chevron-right"></i>
-
-						</p>
-
-				</a>
-
-
-					<ul class="nav nav-treeview">
-
-						<li class="nav-item"><a th:href="@{/admin/reports/monthly}"
-							class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-
-								<p>Monthly Report</p>
-
-						</a></li>
-
-
-						<li class="nav-item"><a th:href="@{/admin/reports/yearly}"
-							class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-
-								<p>Yearly Report</p>
-
-						</a></li>
-
-					</ul></li>
-
-
-				<!-- SETTINGS -->
-
-				<li class="nav-item"><a th:href="@{/admin/settings}"
-					class="nav-link"> <i class="nav-icon bi bi-gear"></i>
-
-						<p>Settings</p>
-
-				</a></li>
-
-
-				<!-- DIVIDER -->
-
-				<li class="nav-header">ACCOUNT</li>
-
-
-				<!-- PROFILE -->
-
-				<li class="nav-item"><a th:href="@{/admin/profile}"
-					class="nav-link"> <i class="nav-icon bi bi-person"></i>
-
-						<p>Profile</p>
-
-				</a></li>
-
-
-				<!-- LOGOUT -->
-
 				<li class="nav-item">
-
-					<form th:action="@{/logout}" method="post">
-
-						<button type="submit" class="nav-link sidebar-logout">
-
-							<i class="nav-icon bi bi-box-arrow-right"></i>
-
-							<p>Logout</p>
-
-						</button>
-
-					</form>
-
+					<a th:href="@{/admin/categories}" class="nav-link"> 
+						<i class="nav-icon bi bi-tags"></i>
+						<p>Categories</p>
+					</a>
 				</li>
-
+				<!-- REPORTS -->
+				<li class="nav-item">
+					<a href="#" class="nav-link"> 
+						<i class="nav-icon bi bi-bar-chart"></i>
+						<p>Reports <i class="nav-arrow bi bi-chevron-right"></i></p>
+					</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a th:href="@{/admin/reports/monthly}" class="nav-link"> 
+								<i class="nav-icon bi bi-circle"></i>
+								<p>Monthly Report</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a th:href="@{/admin/reports/yearly}" class="nav-link"> 
+								<i class="nav-icon bi bi-circle"></i>
+								<p>Yearly Report</p>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- SETTINGS -->
+				<li class="nav-item">
+					<a th:href="@{/admin/settings}" class="nav-link"> 
+						<i class="nav-icon bi bi-gear"></i>
+						<p>Settings</p>
+					</a>
+				</li>
+				<!-- DIVIDER -->
+				<li class="nav-header">ACCOUNT</li>
+				<!-- PROFILE -->
+				<li class="nav-item">
+					<a th:href="@{/profile}" class="nav-link"> 
+						<i class="nav-icon bi bi-person"></i>
+						<p>Profile</p>
+					</a>
+				</li>
+				<!-- LOGOUT -->
+				<li class="nav-item">
+					<form th:action="@{/logout}" method="post">
+						<button type="submit" class="nav-link sidebar-logout">
+							<i class="nav-icon bi bi-box-arrow-right"></i>
+							<p>Logout</p>
+						</button>
+					</form>
+				</li>
 			</ul>
-
 		</nav>
-
 	</div>
-
 </aside>

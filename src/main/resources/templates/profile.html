@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- Common Head -->
+<th:block th:replace="~{fragments/header :: header}">
+</th:block>
+<!-- Page Title -->
+<title>SpendWise - My Profile</title>
+<!-- Profile CSS -->
+<link rel="stylesheet" th:href="@{/css/profile.css}">
+</head>
+<body class="layout-fixed">
+	<div class="app-wrapper">
+		<!-- ================================================== NAVBAR =================================================== -->
+		<div th:replace="~{fragments/navbar :: navbar}"></div>
+		<!-- ================================================== SIDEBAR =================================================== -->
+		<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+		<!-- ================================================== MAIN CONTENT =================================================== -->
+		<main class="app-main">
+			<!-- PAGE HEADER -->
+			<div class="app-content-header">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-sm-6">
+							<h3 class="profile-page-title">
+								<i class="bi bi-person-circle"></i> My Profile
+							</h3>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-end">
+								<li class="breadcrumb-item"><a th:href="@{/dashboard}">
+										Dashboard </a></li>
+								<li class="breadcrumb-item active">Profile</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ================================================== PROFILE CONTENT =================================================== -->
+			<div class="app-content">
+				<div class="container-fluid">
+					<div class="row justify-content-center">
+						<div class="col-xl-8 col-lg-10 col-md-12">
+							<!-- PROFILE CARD -->
+							<div class="profile-card">
+								<!-- COVER -->
+								<div class="profile-cover">
+									<div class="profile-avatar">
+										<span
+											th:text="${user.name != null && !user.name.isEmpty() ? #strings.substring(user.name, 0, 1).toUpperCase() : 'U'}">
+											U </span>
+									</div>
+								</div>
+								<!-- USER HEADER -->
+								<div class="profile-header">
+									<h2 th:text="${user.name}">User Name</h2>
+									<p>
+										<i class="bi bi-envelope"></i> <span th:text="${user.email}">
+											user@example.com </span>
+									</p>
+								</div>
+								<!-- PROFILE CONTENT -->
+								<div class="profile-content">
+									<!-- SECTION HEADER -->
+									<div class="section-heading">
+										<div>
+											<i class="bi bi-person-vcard"></i> 
+											<span> Personal Information </span>
+										</div>
+										<!-- EDIT BUTTON -->
+										<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+											<i class="bi bi-pencil"></i> Edit Profile
+										</button>
+									</div>
+									<!-- DETAILS -->
+									<div class="details-container">
+										<!-- NAME -->
+										<div class="detail-item">
+											<div class="detail-icon">
+												<i class="bi bi-person"></i>
+											</div>
+											<div class="detail-content">
+												<span class="detail-label"> Full Name </span> 
+												<span class="detail-value" th:text="${user.name}"> User Name </span>
+											</div>
+										</div>
+										<!-- EMAIL -->
+										<div class="detail-item">
+											<div class="detail-icon">
+												<i class="bi bi-envelope"></i>
+											</div>
+											<div class="detail-content">
+												<span class="detail-label"> Email Address </span> <span
+													class="detail-value" th:text="${user.email}">
+													user@example.com </span>
+											</div>
+										</div>
+										<!-- PHONE -->
+										<div class="detail-item">
+											<div class="detail-icon">
+												<i class="bi bi-telephone"></i>
+											</div>
+											<div class="detail-content">
+												<span class="detail-label"> Phone Number </span> <span
+													class="detail-value"
+													th:text="${user.phone != null && !user.phone.isEmpty() ? user.phone : 'Not provided'}">
+													Not provided </span>
+											</div>
+										</div>
+										<!-- STATUS -->
+										<div class="detail-item">
+											<div class="detail-icon status-icon">
+												<i class="bi bi-shield-check"></i>
+											</div>
+											<div class="detail-content">
+												<span class="detail-label"> Account Status </span> <span
+													class="active-status"> Active </span>
+											</div>
+										</div>
+									</div>
+									<!-- SECURITY BOX -->
+									<div class="security-box">
+										<div class="security-icon">
+											<i class="bi bi-shield-lock"></i>
+										</div>
+										<div>
+											<h6>Your account is secure</h6>
+											<p>Keep your profile information up to date to maintain
+												your SpendWise account.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<!-- ================================================== EDIT PROFILE MODAL =================================================== -->
+		<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content edit-modal">
+					<!-- HEADER -->
+					<div class="modal-header">
+						<div>
+							<h5 class="modal-title" id="editProfileModalLabel">
+								<i class="bi bi-pencil-square"></i> Edit Profile
+							</h5>
+							<p class="modal-subtitle">Update your personal information</p>
+						</div>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<!-- FORM -->
+					<form th:action="@{/profile/update}" th:object="${user}" method="post">
+						<div class="modal-body">
+							<!-- NAME -->
+							<div class="form-group">
+								<label for="profileName"> Full Name </label>
+								<div class="input-group">
+									<span class="input-group-text"> 
+										<i class="bi bi-person"></i>
+									</span> 
+									<input type="text" id="profileName" th:field="*{name}" class="form-control" placeholder="Enter your name" required>
+								</div>
+							</div>
+							<!-- EMAIL -->
+							<div class="form-group">
+								<label for="profileEmail"> Email Address </label>
+								<div class="input-group">
+									<span class="input-group-text"> 
+										<i class="bi bi-envelope"></i>
+									</span> 
+									<input type="email" id="profileEmail" th:field="*{email}" class="form-control" placeholder="Enter your email" required>
+								</div>
+							</div>
+							<!-- PHONE -->
+							<div class="form-group">
+								<label for="profilePhone"> Phone Number </label>
+								<div class="input-group">
+									<span class="input-group-text"> 
+										<i class="bi bi-telephone"></i>
+									</span> 
+									<input type="text" id="profilePhone" th:field="*{phone}" class="form-control" placeholder="Enter your phone number">
+								</div>
+							</div>
+						</div>
+						<!-- FOOTER -->
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+							<button type="submit" class="btn save-profile-btn">
+								<i class="bi bi-check-circle me-1"></i> Save Changes
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- ================================================== FOOTER =================================================== -->
+		<div th:replace="~{fragments/footer :: footer}"></div>
+	</div>
+</body>
+</html>

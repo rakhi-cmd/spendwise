@@ -44,6 +44,8 @@ public class User implements UserDetails{
 	
 	@Column(unique = true)
 	private String userName;
+	@Column
+	private String name;
 	@JsonIgnore
 	private String password;
 	@Column(unique = true)

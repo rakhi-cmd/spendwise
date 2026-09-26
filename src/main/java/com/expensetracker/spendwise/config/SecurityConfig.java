@@ -48,12 +48,18 @@ public class SecurityConfig {
 						/*
 						 * Public pages
 						 */
-						.requestMatchers("/", "/index", "/login", "/signup", "/dashboard","/403").permitAll()
+						.requestMatchers("/", "/index", "/login", "/signup","/403","/register","/profile").permitAll()
 
 						/*
 						 * Static resources
 						 */
 						.requestMatchers("/static/**", "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
+						
+						/*
+				         * Common dashboard
+				         * Accessible only after login
+				         */
+				        .requestMatchers("/dashboard").authenticated()
 
 						/*
 						 * Admin area
@@ -91,7 +97,14 @@ public class SecurityConfig {
 		                 * ADMIN -> /admin/dashboard
 		                 * USER  -> /dashboard
 		                 */
-		                .successHandler((request, response, authentication) -> {
+						.successHandler((request, response, authentication) -> {
+
+						    response.sendRedirect(
+						            request.getContextPath() + "/dashboard"
+						    );
+
+						})
+		               /* .successHandler((request, response, authentication) -> {
 
 		                    boolean isAdmin = authentication
 		                        .getAuthorities()
@@ -115,7 +128,7 @@ public class SecurityConfig {
 		                                + "/dashboard"
 		                        );
 		                    }
-		                })
+		                })*/
 
 						/*
 						 * Failed login.

@@ -32,6 +32,7 @@ public class DataInitializer implements CommandLineRunner{
 	                .status(1)
 	                .email("admin@gmail.com")
 	                .phone("7428730894")
+	                .name("Admin User")
 	                .build()
 	        );
 	    }
