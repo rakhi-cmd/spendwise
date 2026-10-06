@@ -377,44 +377,25 @@
 		</div>
 	</div>
 	<!-- ============ CATEGORY STATUS MODAL ================= -->
-
-	<div class="modal fade" id="statusCategoryModal" tabindex="-1"
-		aria-hidden="true">
-
+	<div class="modal fade" id="statusCategoryModal" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered modal-sm">
-
 			<div class="modal-content category-modal status-modal">
-
 				<div class="modal-body text-center">
-
 					<div class="status-warning-icon">
 						<i class="bi bi-pause-circle"></i>
 					</div>
-
-					<h5>Deactivate Category?</h5>
-
-					<p>This category will no longer be available when adding new
-						expenses.</p>
-
+					<h5 id="statusCategoryTitle"></h5>
+					<p id="statusCategoryMessage"></p>
+					<!-- Hidden category ID -->
+					<input type="hidden" id="statusCategoryId">
 					<div class="status-modal-actions">
-
-						<button type="button" class="btn btn-light"
-							data-bs-dismiss="modal">Cancel</button>
-
-						<button type="button" class="btn btn-warning">Deactivate
-						</button>
-
+						<button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+						<button type="button" id="confirmCategoryStatus" class="btn btn-warning">Deactivate</button>
 					</div>
-
 				</div>
-
 			</div>
-
 		</div>
-
 	</div>
-
-
 	<!-- ================ ADD SUBCATEGORY MODAL =============== -->
 
 	<div class="modal fade" id="addSubcategoryModal" tabindex="-1" aria-hidden="true">
@@ -608,6 +589,127 @@
 	            Swal.fire(
 	                "Error",
 	                "Unable to save subcategory",
+	                "error"
+	            );
+	        }
+	    });
+	});
+	
+	$('#statusCategoryModal').on('show.bs.modal', function (event) {
+
+	    const button = $(event.relatedTarget);
+	    const categoryId = button.attr('data-category-id');
+	    $('#statusCategoryId').val(categoryId);
+	    $.ajax({
+	        url: '/api/categories/status-info/' + categoryId,
+	        type: 'GET',
+	        success: function (data) {
+	            debugger;
+	            if (data.status === "OK" && data.statusCode === 1) {
+	                const category = data.response;
+	                console.log("Category status:", category.status);
+
+	                // CATEGORY IS ACTIVE
+	                if (Number(category.status) === 1) {
+	                    $('#statusCategoryTitle').text('Deactivate Category?');
+	                    $('#confirmCategoryStatus').text('Deactivate');
+	                    if (category.subCategoryCount > 0) {
+	                        $('#statusCategoryMessage').html(
+	                            'This category has <strong>' +
+	                            category.subCategoryCount +
+	                            '</strong> subcategor' +
+	                            (category.subCategoryCount === 1
+	                                ? 'y'
+	                                : 'ies') +
+
+	                            '.<br><br>' +
+
+	                            'Deactivating this category will make it ' +
+	                            'unavailable for new expenses. ' +
+
+	                            'Existing expenses will not be affected.'
+	                        );
+
+	                    } else {
+
+	                        $('#statusCategoryMessage').text(
+
+	                            'This category will no longer be available ' +
+	                            'when adding new expenses.'
+	                        );
+	                    }
+
+	                }
+
+	                // CATEGORY IS INACTIVE
+	                else {
+
+	                    $('#statusCategoryTitle').text('Activate Category?');
+
+	                    $('#confirmCategoryStatus').text('Activate');
+
+	                    $('#statusCategoryMessage').text(
+
+	                        'This category will become available again ' +
+	                        'when adding new expenses.'
+	                    );
+	                }
+
+	            } else {
+
+	                $('#statusCategoryMessage').text(
+	                    'Unable to get category information.'
+	                );
+	            }
+	        },
+
+	        error: function (xhr) {
+
+	            console.error("Error:", xhr);
+
+	            $('#statusCategoryMessage').text(
+	                'Unable to check category information.'
+	            );
+	        }
+	    });
+
+	});
+	
+	$('#confirmCategoryStatus').on('click', function () {
+		const csrfToken = $("meta[name='_csrf']").attr("content");
+	    const csrfHeader = $("meta[name='_csrf_header']").attr("content");
+	    const categoryId = $('#statusCategoryId').val();
+	    $.ajax({
+	        url: '/api/categories/status/' + categoryId,
+	        type: 'POST',
+	        beforeSend: function(xhr) {
+	            xhr.setRequestHeader(csrfHeader, csrfToken);
+	        },
+	        success: function (data) {
+	            if (data.status === "OK" && data.statusCode === 1) {
+	                $('#statusCategoryModal').modal('hide');
+	            	Swal.fire({
+	            	    icon: 'success',
+	            	    title: 'Success',
+	            	    text: 'Category status changed successfully.',
+	            	    confirmButtonText: 'OK'
+	            	}).then(function () {
+	            	    location.reload();
+	            	});
+	            } else {
+	                swal(
+	                    "Error",
+	                    data.responseMessage ||
+	                    "Unable to change category status.",
+	                    "error"
+	                );
+	            }
+	        },
+	        error: function (xhr) {
+	            console.error("Category status update error:", xhr);
+	            swal(
+	                "Error",
+	                "Unable to change category status.",
 	                "error"
 	            );
 	        }
