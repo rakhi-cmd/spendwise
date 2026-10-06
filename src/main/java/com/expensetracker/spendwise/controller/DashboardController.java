@@ -4,6 +4,7 @@ import java.security.Principal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -11,10 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.expensetracker.spendwise.repository.CategoryRepository;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class DashboardController {
+	
+	@Autowired
+	CategoryRepository categoryRepo;
 	
 	private static final Logger logger = LoggerFactory.getLogger(DashboardController.class);
 	
@@ -45,13 +51,14 @@ public class DashboardController {
                         );
         // Admin //
         if(isAdmin) {
+        	int totalCategories = categoryRepo.countByStatus(1);
         	logger.info("Admin dashboard loaded for {}",userName);
         	
         	modelAndView.addObject("totalUsers", 0);
 
             modelAndView.addObject("totalExpenses", 0);
 
-            modelAndView.addObject("totalCategories", 0);
+            modelAndView.addObject("totalCategories", totalCategories);
 
             modelAndView.addObject("monthlyExpenses", 0);
         // User //
@@ -75,14 +82,8 @@ public class DashboardController {
         // ==========================================
 
         else {
-
-            logger.warn("User has no valid role: {}",
-                    userName
-            );
-
+            logger.warn("User has no valid role: {}", userName);
         }
-        
 		return modelAndView ;
 	}
-
 }

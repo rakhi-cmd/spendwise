@@ -195,8 +195,45 @@
 				</div>
 			</div>
 		</div>
+		<div id="profileSuccessMessage" th:if="${successMessage != null}"
+			th:text="${successMessage}" style="display: none;"></div>
+
+		<div id="profileErrorMessage" th:if="${errorMessage != null}"
+			th:text="${errorMessage}" style="display: none;"></div>
 		<!-- ================================================== FOOTER =================================================== -->
 		<div th:replace="~{fragments/footer :: footer}"></div>
 	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+	<script>
+	debugger
+		const successElement = document.getElementById('profileSuccessMessage');
+
+		const errorElement = document.getElementById('profileErrorMessage');
+
+		if (successElement) {
+
+			Swal.fire({
+				icon : 'success',
+				title : 'Profile Updated!',
+				text : successElement.textContent,
+				confirmButtonText : 'OK',
+				confirmButtonColor : '#198754'
+			});
+
+		}
+
+		if (errorElement) {
+
+			Swal.fire({
+				icon : 'error',
+				title : 'Update Failed',
+				text : errorElement.textContent,
+				confirmButtonText : 'OK'
+			});
+
+		}
+	</script>
 </body>
 </html>

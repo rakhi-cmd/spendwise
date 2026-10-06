@@ -1,12 +1,10 @@
 package com.expensetracker.spendwise.model;
 
 import java.util.Date;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,26 +19,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "categories")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "subcategories")
 @Builder
-public class Category {
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class SubCategory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long categoryId;
+	private Long subCategoryId;
 	
-	@Column(name = "name", nullable = false, unique = true, length = 100)
+	@Column
 	private String name;
 	
 	@Column
 	private String description;
 	
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-	@JsonIgnore
-	private List<SubCategory> subcategories;
+	@ManyToOne
+	@JoinColumn(name = "categoryid")
+	private Category category;
 	
 	@Builder.Default
 	private int status = 1;
@@ -64,5 +60,4 @@ public class Category {
 	@Column(updatable=false)
 	@JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd hh:mm:ss")
 	private Date modifiedDateTime;
-	
 }

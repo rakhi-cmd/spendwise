@@ -1,4 +1,5 @@
-<aside th:fragment="sidebar" class="app-sidebar bg-dark shadow" data-bs-theme="dark">
+<aside th:fragment="sidebar" class="app-sidebar bg-dark shadow" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	<!-- BRAND -->
 	<div class="sidebar-brand">
 		<a th:href="@{/dashboard}" class="brand-link"> 
@@ -17,22 +18,22 @@
 					</a>
 				</li>
 				<!-- USERS -->
-				<li class="nav-item">
-					<a th:href="@{/admin/users}" class="nav-link"> 
+				<li class="nav-item" sec:authorize="hasRole('ADMIN')">
+					<a th:href="@{/users}" class="nav-link"> 
 						<i class="nav-icon bi bi-people"></i>
 						<p>Users</p>
 					</a>
 				</li>
 				<!-- EXPENSES -->
 				<li class="nav-item">
-					<a th:href="@{/admin/expenses}" class="nav-link"> 
+					<a th:href="@{/expense}" class="nav-link"> 
 						<i class="nav-icon bi bi-wallet2"></i>
 						<p>Expenses</p>
 					</a>
 				</li>
 				<!-- CATEGORIES -->
-				<li class="nav-item">
-					<a th:href="@{/admin/categories}" class="nav-link"> 
+				<li class="nav-item" sec:authorize="hasRole('ADMIN')">
+					<a th:href="@{/categories}" class="nav-link"> 
 						<i class="nav-icon bi bi-tags"></i>
 						<p>Categories</p>
 					</a>
@@ -45,13 +46,13 @@
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a th:href="@{/admin/reports/monthly}" class="nav-link"> 
+							<a th:href="@{/reports/monthly}" class="nav-link"> 
 								<i class="nav-icon bi bi-circle"></i>
 								<p>Monthly Report</p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a th:href="@{/admin/reports/yearly}" class="nav-link"> 
+							<a th:href="@{/reports/yearly}" class="nav-link"> 
 								<i class="nav-icon bi bi-circle"></i>
 								<p>Yearly Report</p>
 							</a>
@@ -60,7 +61,7 @@
 				</li>
 				<!-- SETTINGS -->
 				<li class="nav-item">
-					<a th:href="@{/admin/settings}" class="nav-link"> 
+					<a th:href="@{/settings}" class="nav-link"> 
 						<i class="nav-icon bi bi-gear"></i>
 						<p>Settings</p>
 					</a>

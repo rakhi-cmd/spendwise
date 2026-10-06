@@ -48,7 +48,10 @@ public class SecurityConfig {
 						/*
 						 * Public pages
 						 */
-						.requestMatchers("/", "/index", "/login", "/signup","/403","/register","/profile").permitAll()
+						.requestMatchers("/", "/index", "/login", "/signup","/403","/register").permitAll()
+						
+						.requestMatchers("/profile","/expense","/categories").authenticated()
+						
 
 						/*
 						 * Static resources
@@ -71,7 +74,7 @@ public class SecurityConfig {
 						 *
 						 * For now they require authentication. We can add JWT later.
 						 */
-						//.requestMatchers("/api/**").authenticated()
+						.requestMatchers("/api/**").permitAll()
 
 						/*
 						 * Everything else requires authentication.
@@ -104,31 +107,6 @@ public class SecurityConfig {
 						    );
 
 						})
-		               /* .successHandler((request, response, authentication) -> {
-
-		                    boolean isAdmin = authentication
-		                        .getAuthorities()
-		                        .stream()
-		                        .anyMatch(authority ->
-		                            authority.getAuthority()
-		                                .equals("ROLE_ADMIN")
-		                        );
-
-		                    if (isAdmin) {
-
-		                        response.sendRedirect(
-		                            request.getContextPath()
-		                                + "/admin/dashboard"
-		                        );
-
-		                    } else {
-
-		                        response.sendRedirect(
-		                            request.getContextPath()
-		                                + "/dashboard"
-		                        );
-		                    }
-		                })*/
 
 						/*
 						 * Failed login.

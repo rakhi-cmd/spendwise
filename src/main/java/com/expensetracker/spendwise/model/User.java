@@ -27,9 +27,12 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @SuppressWarnings("serial")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
@@ -60,10 +63,24 @@ public class User implements UserDetails{
 	@Builder.Default
 	private int status = 1;
 	
+	@ToString.Exclude
+    @EqualsAndHashCode.Exclude
 	@ManyToOne
 	@JoinColumn(name = "createdby")
 	@JsonBackReference
 	private User createdBy;
+	
+	@ToString.Exclude
+    @EqualsAndHashCode.Exclude
+	@ManyToOne
+	@JoinColumn(name = "updatedby")
+	@JsonBackReference
+	private User updatedBy;
+	
+	@Builder.Default
+	@Column(updatable = false)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+	private Date updatedDate = new Date();
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Builder.Default
