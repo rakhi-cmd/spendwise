@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -88,6 +90,36 @@ public class SubCategoryRestController {
 	                CustomStatus.ERROR
 	        );
 	        return ResponseEntity.internalServerError().body(response);
+		}
+	}
+	
+	@GetMapping("/get/{subcategoryId}")
+	public ResponseEntity<?> getSubcategoryData(@PathVariable long subcategoryId){
+		logger.info("Get Subcategory data {}", subcategoryId);
+		
+		try {
+			Optional<SubCategory> getSubcategory = subCategoryRepo.findById(subcategoryId);
+			if(getSubcategory.isEmpty()) {
+				CustomJsonResponse response = new CustomJsonResponse(null, "No Data Found", 
+						CustomStatus.ERROR_CODE, CustomStatus.ERROR);
+				return ResponseEntity.ok(response);
+			}
+			SubCategory subcategory = getSubcategory.get();
+			Map<String, Object> data = new HashMap<>();
+			data.put("categoryId", subcategory.getCategory().getCategoryId());
+			data.put("categoryName", subcategory.getCategory().getName());
+			data.put("name", subcategory.getName());
+			data.put("description", subcategory.getDescription());
+			data.put("status", subcategory.getStatus());
+			
+			CustomJsonResponse response = new CustomJsonResponse(data, "", CustomStatus.OK_CODE, CustomStatus.OK);
+			
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			logger.error("Error while fetching subcategory data",e);
+			CustomJsonResponse response = new CustomJsonResponse(null, "Unable to get subcategory details", 
+					CustomStatus.ERROR_CODE, CustomStatus.ERROR );
+			return ResponseEntity.internalServerError().body(response);
 		}
 	}
 }

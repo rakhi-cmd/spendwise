@@ -81,11 +81,6 @@ public class CategoryController {
         return "redirect:/categories";
     }
     
-    @GetMapping("/categories/get")
-    public String getMethodName(@RequestParam String param) {
-        return new String();
-    }
-    
 	
 
 }

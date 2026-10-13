@@ -1,5 +1,6 @@
 package com.expensetracker.spendwise.restcontroller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -8,9 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.expensetracker.spendwise.model.Category;
+import com.expensetracker.spendwise.model.User;
 import com.expensetracker.spendwise.repository.CategoryRepository;
 import com.expensetracker.spendwise.repository.SubCategoryRepository;
 import com.expensetracker.spendwise.response.CustomJsonResponse;
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -113,4 +118,31 @@ public class CategoryRestController {
 		return ResponseEntity.ok(new CustomJsonResponse(category, "Category status changed successfully",
 				CustomStatus.OK_CODE, CustomStatus.OK));
 	}
+	
+	@PostMapping("/update")
+	public ResponseEntity<?> updateCategory(@RequestParam("categoryId") Long categoryId, @RequestParam("name") String name,
+			@RequestParam("description") String description, @RequestParam("status") int status, Authentication auth) {
+		
+		logger.info("Update category info of ID: {}", categoryId);
+		
+		Category category = categoryRepo.findByCategoryId(categoryId);
+		
+		User loggedInUser = (User) auth.getPrincipal();
+		if(category != null) {
+			category.setName(name);
+			category.setDescription(description);
+			category.setStatus(status);
+			category.setModifiedBy(loggedInUser);
+			category.setModifiedDateTime(new Date());
+			categoryRepo.save(category);
+			
+			return ResponseEntity.ok(new CustomJsonResponse(null, "Category Updated Successfully!", 
+					CustomStatus.OK_CODE, CustomStatus.OK));
+		}else {
+			return ResponseEntity.badRequest().body(
+	                new CustomJsonResponse(null,"Category not found", CustomStatus.ERROR_CODE, CustomStatus.ERROR)
+	        );
+		}
+	}
+	
 }
