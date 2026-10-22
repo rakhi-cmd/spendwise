@@ -2,6 +2,7 @@ package com.expensetracker.spendwise.restcontroller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -145,4 +146,24 @@ public class CategoryRestController {
 		}
 	}
 	
+	@GetMapping("/all")
+	public ResponseEntity<?> categoryListByStatus() {
+		logger.info("Get list of categories");
+		try {
+			List<Category> getAllCategory = categoryRepo.findByStatus(1);
+			if(!getAllCategory.isEmpty()) {
+				CustomJsonResponse response = new CustomJsonResponse(getAllCategory, "Found list of categories", CustomStatus.OK_CODE, CustomStatus.OK);
+				
+				return ResponseEntity.ok(response);
+			}else {
+				return ResponseEntity.badRequest().build();
+			}
+			
+		} catch (Exception e) {
+			logger.error("Error while fetching category list", e);
+
+	        CustomJsonResponse response = new CustomJsonResponse(null, "Unable to get list of category",CustomStatus.ERROR_CODE, CustomStatus.ERROR );
+	        return ResponseEntity.internalServerError().body(response);
+		}
+	}
 }

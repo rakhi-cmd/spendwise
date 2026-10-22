@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.expensetracker.spendwise.model.Category;
+import com.expensetracker.spendwise.model.Expense;
 import com.expensetracker.spendwise.repository.CategoryRepository;
+import com.expensetracker.spendwise.repository.ExpenseRepository;
 import com.expensetracker.spendwise.service.ExpenseService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ExpenseController {
 	
 	@Autowired
-	ExpenseService expenseService;
+	ExpenseRepository expenseRepo;
 	
 	@Autowired
 	CategoryRepository categoryRepo;
@@ -37,6 +39,12 @@ public class ExpenseController {
 		ModelAndView modelAndView = new ModelAndView("expense");
 		List<Category> categories = categoryRepo.findByStatus(1);
 		modelAndView.addObject("categories", categories);
+		
+		List<Expense> expenseList = expenseRepo.findAllByOrderByExpenseDateDesc();
+		for(Expense expense: expenseList) {
+			System.out.println("Category name: "+expense.getCategory().getName());
+		}
+		modelAndView.addObject("expenseList", expenseList);
 		return modelAndView;
 	}
 	

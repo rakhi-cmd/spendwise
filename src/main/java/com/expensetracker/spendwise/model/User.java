@@ -67,14 +67,14 @@ public class User implements UserDetails{
     @EqualsAndHashCode.Exclude
 	@ManyToOne
 	@JoinColumn(name = "createdby")
-	@JsonBackReference
+	@JsonIgnore
 	private User createdBy;
 	
 	@ToString.Exclude
     @EqualsAndHashCode.Exclude
 	@ManyToOne
 	@JoinColumn(name = "updatedby")
-	@JsonBackReference
+	@JsonIgnore
 	private User updatedBy;
 	
 	@Builder.Default

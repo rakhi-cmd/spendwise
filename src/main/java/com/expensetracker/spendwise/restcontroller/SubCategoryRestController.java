@@ -1,6 +1,7 @@
 package com.expensetracker.spendwise.restcontroller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -121,5 +122,35 @@ public class SubCategoryRestController {
 					CustomStatus.ERROR_CODE, CustomStatus.ERROR );
 			return ResponseEntity.internalServerError().body(response);
 		}
+	}
+	@GetMapping("/category/{categoryId}")
+	public ResponseEntity<?> getSubcategoriesByCategory(@PathVariable long categoryId) {
+
+	    logger.info("Get subcategories for category ID: {}", categoryId);
+
+	    try {
+	        List<SubCategory> subcategories = subCategoryRepo.findByCategoryCategoryIdAndCategoryStatusAndStatus(categoryId, 1,1);
+
+	        CustomJsonResponse response = new CustomJsonResponse(
+	                subcategories,
+	                "Found list of subcategories",
+	                CustomStatus.OK_CODE,
+	                CustomStatus.OK
+	        );
+
+	        return ResponseEntity.ok(response);
+
+	    } catch (Exception e) {
+	        logger.error("Error while fetching subcategories", e);
+
+	        CustomJsonResponse response = new CustomJsonResponse(
+	                null,
+	                "Unable to get list of subcategories",
+	                CustomStatus.ERROR_CODE,
+	                CustomStatus.ERROR
+	        );
+
+	        return ResponseEntity.internalServerError().body(response);
+	    }
 	}
 }

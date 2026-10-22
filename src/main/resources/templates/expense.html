@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
+<meta name="_csrf" th:content="${_csrf.token}">
+<meta name="_csrf_header" th:content="${_csrf.headerName}">
 	<!-- Common Head -->
-	<th:block th:replace="~{fragments/header :: header}">
-	</th:block>
+	<th:block th:replace="~{fragments/header :: header}"></th:block>
 	<!-- Page Title -->
-	<title>SpendWise - My Profile</title>
+	<title>SpendWise - Expense</title>
 	<!-- Expense CSS -->
 	<link rel="stylesheet" th:href="@{/css/expense.css}">
 </head>
@@ -25,7 +26,6 @@
 							<h3 class="mb-1 expense-page-title">
 								<i class="bi bi-wallet2 me-2"></i> Expenses
 							</h3>
-
 							<p class="expense-page-subtitle mb-0">Manage, track and monitor your expenses</p>
 						</div>
 						<div class="col-sm-6">
@@ -62,7 +62,6 @@
 								<div class="summary-icon month-icon">
 									<i class="bi bi-calendar-month"></i>
 								</div>
-
 								<div class="summary-content">
 									<span>This Month</span>
 									<h4>₹dynamic</h4>
@@ -77,11 +76,11 @@
 								<div class="summary-icon today-icon">
 									<i class="bi bi-calendar-day"></i>
 								</div>
-
 								<div class="summary-content">
 									<span>Today's Expense</span>
 									<h4>₹850.00</h4>
-									<small> <i class="bi bi-clock"></i> Today's spending
+									<small> 
+										<i class="bi bi-clock"></i> Today's spending
 									</small>
 								</div>
 							</div>
@@ -110,8 +109,7 @@
 								</h5>
 								<p class="expense-card-description">View and manage all your expenses</p>
 							</div>
-							<button type="button" class="btn btn-primary add-expense-btn"
-								data-bs-toggle="modal" data-bs-target="#addExpenseModal">
+							<button type="button" class="btn btn-primary add-expense-btn" data-bs-toggle="modal" data-bs-target="#addExpenseModal">
 								<i class="bi bi-plus-lg me-1"></i> Add Expense
 							</button>
 						</div>
@@ -140,54 +138,45 @@
 								</div>
 								<!-- Payment Method -->
 								<div class="col-lg-2 col-md-6">
-
-									<label class="filter-label"> Payment Method </label> <select
-										class="form-select" id="paymentFilter">
-
-										<option value="">All Methods</option>
-										<option value="Cash">Cash</option>
+									<label class="filter-label"> Payment Method </label> 
+									<select class="form-select" id="paymentFilter">
+										<option value="">Select Payment Method</option>
+	        							<option value="CASH">Cash</option>
 										<option value="UPI">UPI</option>
-										<option value="Credit Card">Credit Card</option>
-										<option value="Debit Card">Debit Card</option>
-										<option value="Net Banking">Net Banking</option>
-
+										<option value="DEBIT_CARD">Debit Card</option>
+										<option value="CREDIT_CARD">Credit Card</option>
+										<option value="NET_BANKING">Net Banking</option>
+										<option value="BANK_TRANSFER">Bank Transfer</option>
+										<option value="NEFT">NEFT</option>
+										<option value="RTGS">RTGS</option>
+										<option value="IMPS">IMPS</option>
+										<option value="CHEQUE">Cheque</option>
+										<option value="DIGITAL_WALLET">Digital Wallet</option>
+										<option value="AUTO_DEBIT">Auto Debit</option>
+										<option value="EMI">EMI</option>
+										<option value="BNPL">Buy Now, Pay Later</option>
+										<option value="GIFT_CARD">Gift Card</option>
+										<option value="PREPAID_CARD">Prepaid Card</option>
+										<option value="DEMAND_DRAFT">Demand Draft</option>
+										<option value="OTHER">Other</option>
 									</select>
-
 								</div>
-
-
 								<!-- Date -->
 								<div class="col-lg-2 col-md-6">
-
-									<label class="filter-label"> Date </label> <input type="date"
-										class="form-control" id="dateFilter">
-
+									<label class="filter-label"> Date </label> 
+									<input type="date" class="form-control" id="dateFilter">
 								</div>
-
-
 								<!-- Reset -->
 								<div class="col-lg-2 col-md-6">
-
-									<button type="button"
-										class="btn btn-outline-secondary reset-filter-btn"
-										id="resetFilters">
-
+									<button type="button" class="btn btn-outline-secondary reset-filter-btn" id="resetFilters">
 										<i class="bi bi-arrow-counterclockwise me-1"></i> Reset
-
 									</button>
-
 								</div>
-
 							</div>
-
 						</div>
-
-
 						<!-- ================= TABLE ================= -->
 						<div class="table-responsive expense-table-wrapper">
-
 							<table class="table expense-table align-middle">
-
 								<thead>
 									<tr>
 										<th>Date</th>
@@ -195,627 +184,271 @@
 										<th>Category</th>
 										<th>Payment Method</th>
 										<th class="text-end">Amount</th>
+										<th>Status</th>
 										<th class="text-center">Actions</th>
 									</tr>
 								</thead>
-
-
 								<tbody id="expenseTableBody">
-
 									<!-- Row 1 -->
-									<tr>
-
-										<td><span class="expense-date"> 28 Sep 2026 </span></td>
-
+									<tr th:each="expense : ${expenseList}">
+										<td>
+											<span class="expense-date" th:text="${#dates.format(expense.expenseDate, 'dd MMM yyyy')}"> </span>
+										</td>
 										<td>
 											<div class="expense-name-wrapper">
-
-												<div class="expense-row-icon food">
-													<i class="bi bi-cup-hot"></i>
-												</div>
-
 												<div>
-													<strong>Restaurant Dinner</strong> <small>Dinner
-														with family</small>
+													<strong th:text="${expense.title}"></strong> 
+													<small th:text="${expense.description}"></small>
 												</div>
-
 											</div>
 										</td>
-
-										<td><span class="category-badge food-badge"> Food
-										</span></td>
-
-										<td><span class="payment-method"> <i
-												class="bi bi-phone me-1"></i> UPI
-										</span></td>
-
-										<td class="text-end"><strong class="expense-amount">
-												₹850.00 </strong></td>
-
+										<td>
+											<span class="category-badge food-badge" th:text="${expense.category.name}"></span>
+										</td>
+										<td>
+											<span class="payment-method" th:text="${#strings.replace(expense.paymentMethod, '_', ' ')}"> 
+												<i class="bi bi-phone me-1"></i>
+											</span>
+										</td>
+										<td class="text-end">
+											<strong class="expense-amount" 
+												th:text="${'₹' + #numbers.formatDecimal(expense.amount, 1, 'COMMA', 2, 'POINT')}">
+											</strong>
+										</td>
+										<td class="text-center">
+											<span class="status-badge active" th:if="${expense.status}"> 
+												<span></span> Active
+											</span> 
+											<!-- Inactive --> 
+											<span class="status-badge inactive" th:unless="${expense.status}"> 
+												<span></span> Inactive
+											</span>
+										</td>
 										<td>
 											<div class="expense-actions">
-
 												<button type="button" class="action-btn view-btn"
 													data-bs-toggle="modal" data-bs-target="#viewExpenseModal"
-													title="View">
+													title="View"
+													th:attr="data-title=${expense.title},
+                 									data-date=${#dates.format(expense.expenseDate, 'dd MMM yyyy')},
+                 									data-amount=${expense.amount},
+                 									data-category=${expense.category.name},
+                 									data-payment=${expense.paymentMethod},
+                 									data-description=${expense.description}">
 													<i class="bi bi-eye"></i>
 												</button>
-
-												<button type="button" class="action-btn edit-btn"
-													data-bs-toggle="modal" data-bs-target="#editExpenseModal"
-													title="Edit">
+												<!--  <button type="button" class="action-btn edit-btn"
+													data-bs-toggle="modal" data-bs-target="#editExpenseModal" title="Edit">
 													<i class="bi bi-pencil"></i>
-												</button>
+												</button>-->
 
 												<button type="button" class="action-btn delete-btn"
-													data-bs-toggle="modal" data-bs-target="#deleteExpenseModal"
-													title="Delete">
+													data-bs-toggle="modal" data-bs-target="#deleteExpenseModal" 
+													title="Delete" th:attr="data-expenseid=${expense.expenseId}">
 													<i class="bi bi-trash"></i>
 												</button>
-
 											</div>
 										</td>
-
 									</tr>
-
-
-									<!-- Row 2 -->
-									<tr>
-
-										<td><span class="expense-date"> 27 Sep 2026 </span></td>
-
-										<td>
-											<div class="expense-name-wrapper">
-
-												<div class="expense-row-icon transport">
-													<i class="bi bi-car-front"></i>
-												</div>
-
-												<div>
-													<strong>Uber Ride</strong> <small>Office travel</small>
-												</div>
-
-											</div>
-										</td>
-
-										<td><span class="category-badge transport-badge">
-												Transport </span></td>
-
-										<td><span class="payment-method"> <i
-												class="bi bi-credit-card me-1"></i> Credit Card
-										</span></td>
-
-										<td class="text-end"><strong class="expense-amount">
-												₹420.00 </strong></td>
-
-										<td>
-											<div class="expense-actions">
-
-												<button type="button" class="action-btn view-btn"
-													data-bs-toggle="modal" data-bs-target="#viewExpenseModal">
-													<i class="bi bi-eye"></i>
-												</button>
-
-												<button type="button" class="action-btn edit-btn"
-													data-bs-toggle="modal" data-bs-target="#editExpenseModal">
-													<i class="bi bi-pencil"></i>
-												</button>
-
-												<button type="button" class="action-btn delete-btn"
-													data-bs-toggle="modal" data-bs-target="#deleteExpenseModal">
-													<i class="bi bi-trash"></i>
-												</button>
-
-											</div>
-										</td>
-
-									</tr>
-
-
-									<!-- Row 3 -->
-									<tr>
-
-										<td><span class="expense-date"> 26 Sep 2026 </span></td>
-
-										<td>
-											<div class="expense-name-wrapper">
-
-												<div class="expense-row-icon bills">
-													<i class="bi bi-lightning-charge"></i>
-												</div>
-
-												<div>
-													<strong>Electricity Bill</strong> <small>Monthly
-														electricity bill</small>
-												</div>
-
-											</div>
-										</td>
-
-										<td><span class="category-badge bills-badge">
-												Bills </span></td>
-
-										<td><span class="payment-method"> <i
-												class="bi bi-phone me-1"></i> UPI
-										</span></td>
-
-										<td class="text-end"><strong class="expense-amount">
-												₹2,450.00 </strong></td>
-
-										<td>
-											<div class="expense-actions">
-
-												<button type="button" class="action-btn view-btn"
-													data-bs-toggle="modal" data-bs-target="#viewExpenseModal">
-													<i class="bi bi-eye"></i>
-												</button>
-
-												<button type="button" class="action-btn edit-btn"
-													data-bs-toggle="modal" data-bs-target="#editExpenseModal">
-													<i class="bi bi-pencil"></i>
-												</button>
-
-												<button type="button" class="action-btn delete-btn"
-													data-bs-toggle="modal" data-bs-target="#deleteExpenseModal">
-													<i class="bi bi-trash"></i>
-												</button>
-
-											</div>
-										</td>
-
-									</tr>
-
-
-									<!-- Row 4 -->
-									<tr>
-
-										<td><span class="expense-date"> 25 Sep 2026 </span></td>
-
-										<td>
-											<div class="expense-name-wrapper">
-
-												<div class="expense-row-icon shopping">
-													<i class="bi bi-bag"></i>
-												</div>
-
-												<div>
-													<strong>Amazon Shopping</strong> <small>Household
-														items</small>
-												</div>
-
-											</div>
-										</td>
-
-										<td><span class="category-badge shopping-badge">
-												Shopping </span></td>
-
-										<td><span class="payment-method"> <i
-												class="bi bi-credit-card me-1"></i> Debit Card
-										</span></td>
-
-										<td class="text-end"><strong class="expense-amount">
-												₹1,850.00 </strong></td>
-
-										<td>
-											<div class="expense-actions">
-
-												<button type="button" class="action-btn view-btn"
-													data-bs-toggle="modal" data-bs-target="#viewExpenseModal">
-													<i class="bi bi-eye"></i>
-												</button>
-
-												<button type="button" class="action-btn edit-btn"
-													data-bs-toggle="modal" data-bs-target="#editExpenseModal">
-													<i class="bi bi-pencil"></i>
-												</button>
-
-												<button type="button" class="action-btn delete-btn"
-													data-bs-toggle="modal" data-bs-target="#deleteExpenseModal">
-													<i class="bi bi-trash"></i>
-												</button>
-
-											</div>
-										</td>
-
-									</tr>
-
-
-									<!-- Row 5 -->
-									<tr>
-
-										<td><span class="expense-date"> 24 Sep 2026 </span></td>
-
-										<td>
-											<div class="expense-name-wrapper">
-
-												<div class="expense-row-icon food">
-													<i class="bi bi-cart"></i>
-												</div>
-
-												<div>
-													<strong>Groceries</strong> <small>Weekly groceries</small>
-												</div>
-
-											</div>
-										</td>
-
-										<td><span class="category-badge food-badge"> Food
-										</span></td>
-
-										<td><span class="payment-method"> <i
-												class="bi bi-cash-stack me-1"></i> Cash
-										</span></td>
-
-										<td class="text-end"><strong class="expense-amount">
-												₹1,240.00 </strong></td>
-
-										<td>
-											<div class="expense-actions">
-
-												<button type="button" class="action-btn view-btn"
-													data-bs-toggle="modal" data-bs-target="#viewExpenseModal">
-													<i class="bi bi-eye"></i>
-												</button>
-
-												<button type="button" class="action-btn edit-btn"
-													data-bs-toggle="modal" data-bs-target="#editExpenseModal">
-													<i class="bi bi-pencil"></i>
-												</button>
-
-												<button type="button" class="action-btn delete-btn"
-													data-bs-toggle="modal" data-bs-target="#deleteExpenseModal">
-													<i class="bi bi-trash"></i>
-												</button>
-
-											</div>
-										</td>
-
-									</tr>
-
 								</tbody>
-
 							</table>
-
 						</div>
-
-
 						<!-- ================= TABLE FOOTER ================= -->
 						<div class="expense-table-footer">
-
 							<div class="expense-count">
 								Showing <strong>1–5</strong> of <strong>24</strong> expenses
 							</div>
-
 							<nav>
 								<ul class="pagination expense-pagination mb-0">
-
-									<li class="page-item disabled"><a class="page-link"
-										href="#"> <i class="bi bi-chevron-left"></i>
-									</a></li>
-
-									<li class="page-item active"><a class="page-link" href="#">1</a>
+									<li class="page-item disabled">
+										<a class="page-link" href="#"> 
+											<i class="bi bi-chevron-left"></i>
+										</a>
 									</li>
-
-									<li class="page-item"><a class="page-link" href="#">2</a>
+									<li class="page-item active">
+										<a class="page-link" href="#">1</a>
 									</li>
-
-									<li class="page-item"><a class="page-link" href="#">3</a>
+									<li class="page-item">
+										<a class="page-link" href="#">2</a>
 									</li>
-
-									<li class="page-item"><a class="page-link" href="#">4</a>
+									<li class="page-item">
+										<a class="page-link" href="#">3</a>
 									</li>
-
-									<li class="page-item"><a class="page-link" href="#"> <i
-											class="bi bi-chevron-right"></i>
-									</a></li>
-
+									<li class="page-item">
+										<a class="page-link" href="#">4</a>
+									</li>
+									<li class="page-item">
+										<a class="page-link" href="#"> 
+											<i class="bi bi-chevron-right"></i>
+										</a>
+									</li>
 								</ul>
 							</nav>
-
 						</div>
-
 					</div>
-
 				</div>
 			</div>
-
 		</main>
-
-
 		<!-- ================= FOOTER ================= -->
 		<div th:replace="~{fragments/footer :: footer}"></div>
-
 	</div>
-
-
-	<!-- ========================================================= -->
-	<!-- ADD EXPENSE MODAL -->
-	<!-- ========================================================= -->
-
-	<div class="modal fade" id="addExpenseModal" tabindex="-1"
-		aria-labelledby="addExpenseModalLabel" aria-hidden="true">
-
+	<!-- ============== ADD EXPENSE MODAL ================== -->
+	<div class="modal fade" id="addExpenseModal" tabindex="-1" aria-labelledby="addExpenseModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered modal-lg">
-
 			<div class="modal-content expense-modal">
-
 				<div class="modal-header">
-
 					<div>
 						<h5 class="modal-title" id="addExpenseModalLabel">
 							<i class="bi bi-plus-circle me-2"></i> Add New Expense
 						</h5>
-
-						<p class="modal-subtitle mb-0">Add a new transaction to your
-							expenses</p>
+						<p class="modal-subtitle mb-0">Add a new transaction to your expenses</p>
 					</div>
-
-					<button type="button" class="btn-close" data-bs-dismiss="modal">
-					</button>
-
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
-
-
-				<form>
-
+				<form id="addExpenseForm" name="addExpenseForm">
 					<div class="modal-body">
-
 						<div class="row g-3">
-
 							<!-- Title -->
 							<div class="col-md-8">
-
-								<label class="form-label"> Expense Title <span
-									class="required">*</span>
-								</label> <input type="text" class="form-control"
-									placeholder="e.g. Grocery Shopping">
-
+								<label class="form-label"> Expense Title <span class="required">*</span></label> 
+								<input type="text" class="form-control" placeholder="e.g. Grocery Shopping" id="expenseTitle" name="title">
 							</div>
-
-
 							<!-- Amount -->
 							<div class="col-md-4">
-
-								<label class="form-label"> Amount <span class="required">*</span>
-								</label>
-
+								<label class="form-label"> Amount <span class="required">*</span></label>
 								<div class="input-group">
-
-									<span class="input-group-text"> ₹ </span> <input type="number"
-										class="form-control" placeholder="0.00" step="0.01">
-
+									<span class="input-group-text"> ₹ </span> 
+									<input type="number" class="form-control" placeholder="0.00" step="0.01" name="amount" id="expenseAmount">
 								</div>
-
 							</div>
-
-
 							<!-- Category -->
 							<div class="col-md-6">
-
-								<label class="form-label"> Category <span
-									class="required">*</span>
-								</label> <select class="form-select">
-
-									<option value="">Select category</option>
-
-									<option>Food</option>
-									<option>Transport</option>
-									<option>Shopping</option>
-									<option>Bills & Utilities</option>
-									<option>Entertainment</option>
-									<option>Health</option>
-									<option>Education</option>
-									<option>Travel</option>
-									<option>Other</option>
-
-								</select>
-
+								<label class="form-label"> Category <span class="required">*</span></label> 
+								<select class="form-select" id="categoryId" name="category"></select>
 							</div>
-
-
+							<!-- Subcategory -->
+							<div class="col-md-6">
+								<label class="form-label"> Subcategory <span class="required">*</span></label> 
+								<select class="form-select" id="subcategoryId" name="subcategory"></select>
+							</div>
 							<!-- Date -->
 							<div class="col-md-6">
-
-								<label class="form-label"> Expense Date <span
-									class="required">*</span>
-								</label> <input type="date" class="form-control">
-
+								<label class="form-label"> Expense Date <span class="required">*</span> </label> 
+								<input type="date" class="form-control" name="expenseDate" id="expenseDate">
 							</div>
-
-
 							<!-- Payment Method -->
 							<div class="col-md-6">
-
-								<label class="form-label"> Payment Method <span
-									class="required">*</span>
-								</label> <select class="form-select">
-
-									<option value="">Select payment method</option>
-
-									<option>Cash</option>
-									<option>UPI</option>
-									<option>Credit Card</option>
-									<option>Debit Card</option>
-									<option>Net Banking</option>
-									<option>Other</option>
-
+								<label class="form-label"> Payment Method <span class="required">*</span> </label> 
+								<select class="form-select" id="paymentMethod" name="paymentMethod">
+									<option value="">Select Payment Method</option>
+        							<option value="CASH">Cash</option>
+									<option value="UPI">UPI</option>
+									<option value="DEBIT_CARD">Debit Card</option>
+									<option value="CREDIT_CARD">Credit Card</option>
+									<option value="NET_BANKING">Net Banking</option>
+									<option value="BANK_TRANSFER">Bank Transfer</option>
+									<option value="NEFT">NEFT</option>
+									<option value="RTGS">RTGS</option>
+									<option value="IMPS">IMPS</option>
+									<option value="CHEQUE">Cheque</option>
+									<option value="DIGITAL_WALLET">Digital Wallet</option>
+									<option value="AUTO_DEBIT">Auto Debit</option>
+									<option value="EMI">EMI</option>
+									<option value="BNPL">Buy Now, Pay Later</option>
+									<option value="GIFT_CARD">Gift Card</option>
+									<option value="PREPAID_CARD">Prepaid Card</option>
+									<option value="DEMAND_DRAFT">Demand Draft</option>
+									<option value="OTHER">Other</option>
 								</select>
-
 							</div>
-
-
 							<!-- Description -->
 							<div class="col-md-6">
-
 								<label class="form-label"> Description </label>
-
-								<textarea class="form-control" rows="1"
-									placeholder="Optional description"></textarea>
-
+								<textarea class="form-control" rows="1" name="description" placeholder="Optional description" id="expenseDescription"></textarea>
 							</div>
-
 						</div>
-
 					</div>
-
-
 					<div class="modal-footer">
-
-						<button type="button" class="btn btn-light"
-							data-bs-dismiss="modal">Cancel</button>
-
-						<button type="submit" class="btn btn-primary">
-
+						<button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary" th:onclick="addExpense();">
 							<i class="bi bi-check-lg me-1"></i> Save Expense
-
 						</button>
-
 					</div>
-
 				</form>
-
 			</div>
-
 		</div>
-
 	</div>
 
+	<!-- ================= VIEW EXPENSE MODAL ================ -->
 
-	<!-- ========================================================= -->
-	<!-- VIEW EXPENSE MODAL -->
-	<!-- ========================================================= -->
-
-	<div class="modal fade" id="viewExpenseModal" tabindex="-1"
-		aria-hidden="true">
-
+	<div class="modal fade" id="viewExpenseModal" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
-
 			<div class="modal-content expense-modal">
-
 				<div class="modal-header">
-
 					<h5 class="modal-title">
 						<i class="bi bi-receipt me-2"></i> Expense Details
 					</h5>
-
-					<button type="button" class="btn-close" data-bs-dismiss="modal">
-					</button>
-
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
-
-
 				<div class="modal-body">
-
 					<div class="expense-detail-header">
-
 						<div class="expense-detail-icon food">
 							<i class="bi bi-cup-hot"></i>
 						</div>
-
 						<div>
-							<h5>Restaurant Dinner</h5>
-							<span>28 Sep 2026</span>
+							<h5 id="vExpenseTitle"></h5>
+							<span id="vExpenseDate"></span>
 						</div>
-
-						<strong class="expense-detail-amount"> ₹850.00 </strong>
-
+						<strong class="expense-detail-amount" id="vExpenseAmount"></strong>
 					</div>
-
-
 					<div class="expense-details-list">
-
 						<div class="detail-item">
-							<span>Category</span> <strong>Food</strong>
+							<span>Category</span> <strong id="vExpenseCategory"></strong>
 						</div>
-
 						<div class="detail-item">
-							<span>Payment Method</span> <strong>UPI</strong>
+							<span>Payment Method</span> <strong id="vExpensePayment"></strong>
 						</div>
-
 						<div class="detail-item">
-							<span>Description</span> <strong>Dinner with family</strong>
+							<span>Description</span> <strong id="vExpenseDescription"></strong>
 						</div>
-
 					</div>
-
 				</div>
-
-
 				<div class="modal-footer">
-
-					<button type="button" class="btn btn-light" data-bs-dismiss="modal">
-						Close</button>
-
+					<button type="button" class="btn btn-light" data-bs-dismiss="modal"> Close</button>
 				</div>
-
 			</div>
-
 		</div>
-
 	</div>
-
-
-	<!-- ========================================================= -->
-	<!-- EDIT EXPENSE MODAL -->
-	<!-- ========================================================= -->
-
-	<div class="modal fade" id="editExpenseModal" tabindex="-1"
-		aria-hidden="true">
-
+	<!-- ============== EDIT EXPENSE MODAL  ============== -->
+	<!-- <div class="modal fade" id="editExpenseModal" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered modal-lg">
-
 			<div class="modal-content expense-modal">
-
 				<div class="modal-header">
-
 					<div>
 						<h5 class="modal-title">
 							<i class="bi bi-pencil-square me-2"></i> Edit Expense
 						</h5>
-
-						<p class="modal-subtitle mb-0">Update your expense information
-						</p>
+						<p class="modal-subtitle mb-0">Update your expense information </p>
 					</div>
-
-					<button type="button" class="btn-close" data-bs-dismiss="modal">
-					</button>
-
+					<button type="button" class="btn-close" data-bs-dismiss="modal"> </button>
 				</div>
-
-
-				<form>
-
+				<form id="editExpenseForm">
 					<div class="modal-body">
-
 						<div class="row g-3">
-
 							<div class="col-md-8">
-
-								<label class="form-label"> Expense Title </label> <input
-									type="text" class="form-control" value="Restaurant Dinner">
-
+								<label class="form-label"> Expense Title </label> 
+								<input type="text" class="form-control" value="Restaurant Dinner">
 							</div>
-
-
 							<div class="col-md-4">
-
 								<label class="form-label"> Amount </label>
-
 								<div class="input-group">
-
-									<span class="input-group-text"> ₹ </span> <input type="number"
-										class="form-control" value="850.00" step="0.01">
-
+									<span class="input-group-text"> ₹ </span> 
+									<input type="number" class="form-control" value="850.00" step="0.01">
 								</div>
-
 							</div>
-
-
 							<div class="col-md-6">
-
-								<label class="form-label"> Category </label> <select
-									class="form-select">
-
+								<label class="form-label"> Category </label> 
+								<select class="form-select">
 									<option selected>Food</option>
 									<option>Transport</option>
 									<option>Shopping</option>
@@ -825,114 +458,77 @@
 									<option>Education</option>
 									<option>Travel</option>
 									<option>Other</option>
-
 								</select>
-
 							</div>
-
-
 							<div class="col-md-6">
-
-								<label class="form-label"> Expense Date </label> <input
-									type="date" class="form-control" value="2026-09-28">
-
+								<label class="form-label"> Expense Date </label> 
+								<input type="date" class="form-control" value="2026-09-28">
 							</div>
-
-
 							<div class="col-md-6">
-
-								<label class="form-label"> Payment Method </label> <select
-									class="form-select">
-
-									<option>Cash</option>
-									<option selected>UPI</option>
-									<option>Credit Card</option>
-									<option>Debit Card</option>
-									<option>Net Banking</option>
-
+								<label class="form-label"> Payment Method </label> 
+								<select class="form-select">
+									<option value="">Select Payment Method</option>
+        							<option value="CASH">Cash</option>
+									<option value="UPI">UPI</option>
+									<option value="DEBIT_CARD">Debit Card</option>
+									<option value="CREDIT_CARD">Credit Card</option>
+									<option value="NET_BANKING">Net Banking</option>
+									<option value="BANK_TRANSFER">Bank Transfer</option>
+									<option value="NEFT">NEFT</option>
+									<option value="RTGS">RTGS</option>
+									<option value="IMPS">IMPS</option>
+									<option value="CHEQUE">Cheque</option>
+									<option value="DIGITAL_WALLET">Digital Wallet</option>
+									<option value="AUTO_DEBIT">Auto Debit</option>
+									<option value="EMI">EMI</option>
+									<option value="BNPL">Buy Now, Pay Later</option>
+									<option value="GIFT_CARD">Gift Card</option>
+									<option value="PREPAID_CARD">Prepaid Card</option>
+									<option value="DEMAND_DRAFT">Demand Draft</option>
+									<option value="OTHER">Other</option>
 								</select>
-
 							</div>
-
-
 							<div class="col-md-6">
-
 								<label class="form-label"> Description </label>
-
 								<textarea class="form-control" rows="1">Dinner with family</textarea>
-
 							</div>
-
 						</div>
-
 					</div>
-
-
 					<div class="modal-footer">
-
-						<button type="button" class="btn btn-light"
-							data-bs-dismiss="modal">Cancel</button>
-
+						<button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
 						<button type="submit" class="btn btn-primary">
-
 							<i class="bi bi-check-lg me-1"></i> Update Expense
-
 						</button>
-
 					</div>
-
 				</form>
-
 			</div>
-
 		</div>
+	</div>-->
+	<!-- ============ DELETE CONFIRMATION MODAL =========== -->
 
-	</div>
-
-
-	<!-- ========================================================= -->
-	<!-- DELETE CONFIRMATION MODAL -->
-	<!-- ========================================================= -->
-
-	<div class="modal fade" id="deleteExpenseModal" tabindex="-1"
-		aria-hidden="true">
-
+	<div class="modal fade" id="deleteExpenseModal" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered modal-sm">
-
 			<div class="modal-content expense-modal delete-modal">
-
 				<div class="modal-body text-center">
-
 					<div class="delete-icon">
 						<i class="bi bi-trash"></i>
 					</div>
-
 					<h5>Delete Expense?</h5>
-
-					<p>Are you sure you want to delete this expense? This action
-						cannot be undone.</p>
-
+					<p>Are you sure you want to delete this expense? This action cannot be undone.</p>
 					<div class="delete-actions">
-
-						<button type="button" class="btn btn-light"
-							data-bs-dismiss="modal">Cancel</button>
-
-						<button type="button" class="btn btn-danger">
+						<button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-danger" id="confirmDeleteBtn">
 							<i class="bi bi-trash me-1"></i> Delete
 						</button>
-
 					</div>
-
 				</div>
-
 			</div>
-
 		</div>
-
 	</div>
-
-
-	<!-- Bootstrap JS is assumed to be loaded by your footer fragment -->
+	
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script th:src="@{/js/expense.js}" type="text/javascript"></script>
 
 </body>
 

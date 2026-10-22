@@ -19,4 +19,10 @@ public class CustomJsonResponse implements ResponseDao{
 		this.status = status;
 	}
 
+
+
+	public CustomJsonResponse() {
+		super();
+	}
+
 }

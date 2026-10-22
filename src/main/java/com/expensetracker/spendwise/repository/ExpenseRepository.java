@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.expensetracker.spendwise.model.Expense;
@@ -17,4 +18,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long>{
     long countByUser_Id(Long userId);
 
     List<Expense> findByUser_IdAndExpenseDateBetweenOrderByExpenseDateDesc(Long userId,Date startDate,Date endDate);
+    
+    @EntityGraph(attributePaths = {"category"})
+    List<Expense> findAllByOrderByExpenseDateDesc();
 }

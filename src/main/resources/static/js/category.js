@@ -1,5 +1,6 @@
 /**
- * 
+ * @author Rakhi Sharma
+ * @description Javascript function to manage dynamic data in dropdowns
  */
 
 $(document).on("click", ".add-subcategory-btn", function() {

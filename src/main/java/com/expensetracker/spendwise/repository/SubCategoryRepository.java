@@ -19,4 +19,6 @@ public interface SubCategoryRepository extends JpaRepository<SubCategory, Long>{
     
     @Query("SELECT COUNT(s) FROM SubCategory s WHERE s.category.categoryId = :categoryId")
     long countSubCategoriesByCategoryId(@Param("categoryId") long categoryId);
+
+	List<SubCategory> findByCategoryCategoryIdAndCategoryStatusAndStatus(long categoryId, int categoryStatus, int subcategoryStatus);
 }
