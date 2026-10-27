@@ -50,7 +50,7 @@
 								</div>
 								<div class="summary-content">
 									<span>Total Expenses</span>
-									<h4>₹dynamic</h4>
+									<h4 th:text="'₹' + ${#numbers.formatDecimal(totalExpenses, 1, 'COMMA', 2, 'POINT')}"></h4>
 									<small> <i class="bi bi-arrow-up"></i> Overall spending
 									</small>
 								</div>
@@ -64,8 +64,9 @@
 								</div>
 								<div class="summary-content">
 									<span>This Month</span>
-									<h4>₹dynamic</h4>
-									<small> <i class="bi bi-calendar3"></i> September 2026
+									<h4 th:text="'₹' + ${#numbers.formatDecimal(monthlyExpenses, 1, 'COMMA', 2, 'POINT')}"></h4>
+									<small>
+										<span class="bi bi-calendar3" th:text="${currentMonth}"></span>
 									</small>
 								</div>
 							</div>
@@ -78,7 +79,7 @@
 								</div>
 								<div class="summary-content">
 									<span>Today's Expense</span>
-									<h4>₹850.00</h4>
+									<h4 th:text="'₹' + ${#numbers.formatDecimal(todayExpenses, 1, 'COMMA', 2, 'POINT')}"></h4>
 									<small> 
 										<i class="bi bi-clock"></i> Today's spending
 									</small>
@@ -93,8 +94,14 @@
 								</div>
 								<div class="summary-content">
 									<span>Top Category</span>
-									<h4>Food</h4>
-									<small> ₹4,850.00 this month </small>
+									<h6 th:text="${topCategory}"></h6>
+									<small> 
+										<span th:text="'₹' + ${#numbers.formatDecimal(topCategoryAmount, 1, 'COMMA', 2, 'POINT')}">
+										</span> 
+										<span
+										th:text="'Highest spending in '+ ${#temporals.format(#temporals.createNow(), 'MMMM')}">
+										</span>
+									</small>
 								</div>
 							</div>
 						</div>

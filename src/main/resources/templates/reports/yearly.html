@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
+	<title>SpendWise - Annual Report</title>
+	<!-- Common Head -->
+	<th:block th:replace="~{fragments/header :: header}"></th:block>
+	<link rel="stylesheet" th:href="@{/css/categories.css}">
+</head>
+<body>
+<div class="app-wrapper">
+
+		<!-- ================= NAVBAR ================= -->
+		<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+		<!-- ================= SIDEBAR ================= -->
+		<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+		
+		<!-- ================= FOOTER ================= -->
+		<div th:replace="~{fragments/footer :: footer}"></div>
+</div>
+</body>
+</html>

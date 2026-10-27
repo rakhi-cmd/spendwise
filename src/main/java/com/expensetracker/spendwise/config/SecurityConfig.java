@@ -9,6 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import com.expensetracker.spendwise.service.CustomUserDetailsService;
 
@@ -38,7 +39,7 @@ public class SecurityConfig {
 				 * Session-based authentication for Thymeleaf.
 				 */
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-						.maximumSessions(1).maxSessionsPreventsLogin(false))
+						.maximumSessions(1).maxSessionsPreventsLogin(false).expiredUrl("/login?expired=true"))
 
 				/*
 				 * Authorization rules.
@@ -50,7 +51,7 @@ public class SecurityConfig {
 						 */
 						.requestMatchers("/", "/index", "/login", "/signup","/403","/register").permitAll()
 						
-						.requestMatchers("/profile","/expense","/categories").authenticated()
+						.requestMatchers("/profile","/expense","/categories","/reports/**").authenticated()
 						
 
 						/*
@@ -74,7 +75,7 @@ public class SecurityConfig {
 						 *
 						 * For now they require authentication. We can add JWT later.
 						 */
-						.requestMatchers("/api/**").permitAll()
+						.requestMatchers("/api/**").authenticated()
 
 						/*
 						 * Everything else requires authentication.
@@ -94,12 +95,6 @@ public class SecurityConfig {
 						 */
 						.loginProcessingUrl("/login")
 						
-						/*
-		                 * Role-based dashboard redirect.
-		                 *
-		                 * ADMIN -> /admin/dashboard
-		                 * USER  -> /dashboard
-		                 */
 						.successHandler((request, response, authentication) -> {
 
 						    response.sendRedirect(
@@ -192,6 +187,11 @@ public class SecurityConfig {
 		return http.build();
 
 	}
+	// Required for maximumSessions() to detect expired/destroyed sessions
+    @Bean
+    HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
+    }
 
 	/*
 	 * BCrypt password encryption.

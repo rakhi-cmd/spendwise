@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta name="_csrf" th:content="${_csrf.token}">
+<meta name="_csrf_header" th:content="${_csrf.headerName}">
+<title>SpendWise - Monthly Report</title>
+<!-- Common Head -->
+<th:block th:replace="~{fragments/header :: header}"></th:block>
+<link rel="stylesheet" th:href="@{/css/monthly-report.css}">
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+	<div class="app-wrapper">
+		<!-- ================= NAVBAR ================= -->
+		<div th:replace="~{fragments/navbar :: navbar}"></div>
+		<!-- ================= SIDEBAR ================= -->
+		<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+		<main class="app-main">
+			<div class="app-content pt-4">
+				<div class="container-fluid mr-wrap">
+					<!-- Header + month stepper -->
+					<div class="mr-header">
+						<div>
+							<h1 class="mr-title"><i class="bi bi-bar-chart-line-fill"></i>&nbsp;Monthly Report</h1>
+							<p class="mr-subtitle">Where your money went this month.</p>
+						</div>
+						<div class="mr-stepper">
+							<button type="button" id="prevMonth" aria-label="Previous month">&#8249;</button>
+							<span id="monthLabel">Month Year</span>
+							<button type="button" id="nextMonth" aria-label="Next month">&#8250;</button>
+						</div>
+					</div>
+					<div id="reportStatus" class="alert alert-danger d-none" role="alert"></div>
+					<!-- KPI cards -->
+					<div class="mr-kpis">
+						<div class="mr-card mr-kpi">
+							<small>Total spent</small> <b id="totalExpenses">₹0.00</b> 
+							<em id="totalDelta">—</em>
+						</div>
+						<div class="mr-card mr-kpi">
+							<small>Daily average</small> <b id="dailyAverage">₹0.00</b> 
+							<em id="dailyDays">—</em>
+						</div>
+						<div class="mr-card mr-kpi">
+							<small>Top category</small> <b id="topCategory">—</b> 
+							<em id="topCategoryMeta">—</em>
+						</div>
+						<div class="mr-card mr-kpi">
+							<small>Biggest day</small> <b id="biggestDay">—</b> 
+							<em id="biggestDayMeta">—</em>
+						</div>
+					</div>
+
+					<!-- Daily chart -->
+					<section class="mr-card">
+						<h2 class="mr-card-title">Daily spending</h2>
+						<p class="mr-card-sub">Bars show each day. The line shows your running total for the month.</p>
+						<div class="mr-chart-box">
+							<canvas id="dailyExpenseChart"></canvas>
+						</div>
+					</section>
+
+					<!-- Category + payment -->
+					<div class="mr-two">
+						<section class="mr-card">
+							<h2 class="mr-card-title">By category</h2>
+							<p class="mr-card-sub">Your top five categories.</p>
+							<div id="categoryList"></div>
+						</section>
+
+						<section class="mr-card">
+							<h2 class="mr-card-title">By payment method</h2>
+							<p class="mr-card-sub">How you paid.</p>
+							<div id="paymentStack" class="mr-stack" role="img"
+								aria-label="Payment method share"></div>
+							<div id="paymentList"></div>
+						</section>
+					</div>
+
+					<!-- Expense table -->
+					<section class="mr-card">
+						<div class="mr-table-head">
+							<div>
+								<h2 class="mr-card-title">Expenses</h2>
+								<p class="mr-card-sub mb-0">Largest first.</p>
+							</div>
+							<input type="search" id="expenseSearch" class="mr-search"
+								placeholder="Search expenses" aria-label="Search expenses">
+						</div>
+
+						<div class="mr-table-scroll">
+							<table class="mr-table">
+								<thead>
+									<tr>
+										<th>Expense</th>
+										<th>Date</th>
+										<th>Category</th>
+										<th>Payment</th>
+										<th>Amount</th>
+									</tr>
+								</thead>
+								<tbody id="monthlyExpenseTableBody"></tbody>
+							</table>
+						</div>
+
+						<div class="mr-table-foot">
+							<span id="expenseResultCount">0 expenses</span> 
+							<span id="expenseTotalAmount">Total ₹0.00</span>
+						</div>
+					</section>
+				</div>
+			</div>
+		</main>
+		<!-- ================= FOOTER ================= -->
+		<div th:replace="~{fragments/footer :: footer}"></div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+	<script th:src="@{/js/monthly-report.js}"></script>
+</body>
+</html>

@@ -1,12 +1,8 @@
 @charset "UTF-8";
-/* =========================================================
-   SPENDWISE - EXPENSE MODULE
-   ========================================================= */
+/* =========== SPENDWISE - EXPENSE MODULE ============= */
 
 
-/* =========================================================
-   PAGE HEADER
-   ========================================================= */
+/* ============ PAGE HEADER =========== */
 
 .expense-page-title {
     font-size: 1.55rem;
@@ -53,16 +49,13 @@
 	background: #ef4444;
 }
 
-
-/* =========================================================
-   SUMMARY CARDS
-   ========================================================= */
+/* =============== SUMMARY CARDS ============== */
 
 .expense-summary-card {
     background: #ffffff;
     border: 1px solid #e8ebf0;
     border-radius: 12px;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     align-items: center;
     gap: 15px;

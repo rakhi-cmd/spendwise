@@ -1,0 +1,288 @@
+.mr-wrap {
+	max-width: 1180px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	color: #1c2033;
+}
+
+/* Header */
+.mr-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 16px;
+}
+
+.mr-title {
+	margin: 0;
+	font-size: 26px;
+	font-weight: 700;
+}
+
+.mr-subtitle {
+	margin: 4px 0 0;
+	color: #5b6275;
+	font-size: 14px;
+}
+
+/* Month stepper */
+.mr-stepper {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	background: #fff;
+	border: 1px solid #e3e6ef;
+	border-radius: 12px;
+	padding: 4px;
+}
+
+.mr-stepper button {
+	width: 44px;
+	height: 44px;
+	border: 0;
+	background: transparent;
+	border-radius: 8px;
+	font-size: 22px;
+	line-height: 1;
+	color: #4338ca;
+	cursor: pointer;
+}
+
+.mr-stepper button:hover:not(:disabled) {
+	background: #eef0ff;
+}
+
+.mr-stepper button:disabled {
+	color: #b8bccb;
+	cursor: not-allowed;
+}
+
+.mr-stepper span {
+	min-width: 150px;
+	text-align: center;
+	font-weight: 600;
+	font-size: 15px;
+}
+
+/* Cards */
+.mr-card {
+	background: #fff;
+	border: 1px solid #e3e6ef;
+	border-radius: 14px;
+	padding: 20px;
+}
+
+.mr-card-title {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.mr-card-sub {
+	margin: 2px 0 16px;
+	color: #5b6275;
+	font-size: 13px;
+}
+
+/* KPIs */
+.mr-kpis {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 16px;
+}
+
+.mr-kpi small {
+	display: block;
+	color: #5b6275;
+	font-size: 13px;
+	font-weight: 500;
+}
+
+.mr-kpi b {
+	display: block;
+	font-size: 28px;
+	font-weight: 700;
+	margin: 8px 0 4px;
+	overflow-wrap: anywhere;
+}
+
+.mr-kpi em {
+	font-style: normal;
+	font-size: 13px;
+	color: #5b6275;
+}
+
+.mr-up {
+	color: #b42318;
+	font-weight: 600;
+}
+
+.mr-down {
+	color: #0a7a4b;
+	font-weight: 600;
+}
+
+/* Chart */
+.mr-chart-box {
+	position: relative;
+	height: 300px;
+}
+
+/* Layout */
+.mr-two {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+	gap: 16px;
+}
+
+/* Category rows */
+.mr-row {
+	display: grid;
+	grid-template-columns: 96px 1fr 90px;
+	gap: 12px;
+	align-items: center;
+	font-size: 14px;
+	margin-bottom: 12px;
+}
+
+.mr-row>span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.mr-bar {
+	height: 10px;
+	background: #eceefa;
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.mr-bar div {
+	height: 100%;
+	background: #4f46e5;
+	border-radius: 6px;
+	transition: width .3s;
+}
+
+.mr-row b {
+	text-align: right;
+	font-weight: 600;
+}
+
+/* Payment */
+.mr-stack {
+	display: flex;
+	height: 16px;
+	border-radius: 8px;
+	overflow: hidden;
+	margin: 8px 0 14px;
+	background: #eceefa;
+}
+
+.mr-pm {
+	display: flex;
+	justify-content: space-between;
+	font-size: 14px;
+	padding: 10px 0;
+	border-top: 1px solid #eef0f6;
+}
+
+.mr-dot {
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	border-radius: 3px;
+	margin-right: 8px;
+}
+
+/* Table */
+.mr-table-head {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-bottom: 12px;
+}
+
+.mr-search {
+	height: 44px;
+	min-width: 240px;
+	border: 1px solid #d5d9e6;
+	border-radius: 10px;
+	padding: 0 14px;
+	font-size: 14px;
+}
+
+.mr-search:focus {
+	outline: 2px solid #818cf8;
+	border-color: #818cf8;
+}
+
+.mr-table-scroll {
+	overflow-x: auto;
+}
+
+.mr-table {
+	width: 100%;
+	min-width: 560px;
+	border-collapse: collapse;
+	font-size: 14px;
+}
+
+.mr-table th {
+	text-align: left;
+	font-size: 12px;
+	letter-spacing: .04em;
+	text-transform: uppercase;
+	color: #5b6275;
+	padding: 10px 8px;
+	border-bottom: 1px solid #e3e6ef;
+}
+
+.mr-table td {
+	padding: 14px 8px;
+	border-bottom: 1px solid #eef0f6;
+}
+
+.mr-table th:last-child, .mr-table td:last-child {
+	text-align: right;
+	font-weight: 600;
+}
+
+.mr-tag {
+	display: inline-block;
+	background: #eef0ff;
+	color: #3730a3;
+	border-radius: 999px;
+	padding: 3px 10px;
+	font-size: 12px;
+	font-weight: 500;
+}
+
+.mr-table-foot {
+	display: flex;
+	justify-content: space-between;
+	color: #5b6275;
+	font-size: 13px;
+	padding-top: 14px;
+}
+
+.mr-empty {
+	text-align: center;
+	color: #5b6275;
+	padding: 24px 8px !important;
+	font-weight: 400 !important;
+}
+
+@media ( max-width : 575px) {
+	.mr-row {
+		grid-template-columns: 80px 1fr 80px;
+	}
+	.mr-search {
+		width: 100%;
+	}
+}

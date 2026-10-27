@@ -9,17 +9,12 @@ public class CustomJsonResponse implements ResponseDao{
 	private String responseMessage;
 	private int statusCode;
 	private String status;
-	
-	
-
 	public CustomJsonResponse(Object response, String responseMessage, int statusCode, String status) {
 		this.response = response;
 		this.responseMessage = responseMessage;
 		this.statusCode = statusCode;
 		this.status = status;
 	}
-
-
 
 	public CustomJsonResponse() {
 		super();
