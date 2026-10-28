@@ -29,9 +29,6 @@ public class ReportsController {
 		logger.info("Monthly report requested");
 		ModelAndView modelAndView = null;
 		try {
-			User loggedInUser = (User) auth.getPrincipal();
-			System.out.println("Logged in user name: "+loggedInUser.getName()); 
-			
 			modelAndView = new ModelAndView("reports/monthly");
 			
 		} catch (Exception e) {
@@ -46,9 +43,6 @@ public class ReportsController {
 		logger.info("Yearly report requested");
 		ModelAndView modelAndView = null;
 		try {
-			User loggedInUser = (User) auth.getPrincipal();
-			System.out.println("Logged in user name: "+loggedInUser.getName()); 
-			
 			modelAndView = new ModelAndView("reports/yearly");
 			
 		} catch (Exception e) {

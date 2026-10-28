@@ -1,1 +1,427 @@
 @charset "UTF-8";
+
+.yearly-report-page {
+	min-width: 0;
+	color: #182b4d;
+	background: #f4f8fd;
+}
+
+.yearly-report-page .content-wrapper {
+	padding: 28px;
+	max-width: 1800px;
+	margin: 0 auto;
+}
+
+.report-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	margin-bottom: 24px;
+}
+
+.eyebrow {
+	margin: 0 0 7px;
+	color: #3478f6;
+	font-size: .72rem;
+	font-weight: 800;
+	letter-spacing: .12em;
+}
+
+.report-heading h1 {
+	margin: 0;
+	color: #172b4d;
+	font-size: clamp(1.6rem, 2.2vw, 2.1rem);
+	font-weight: 750;
+	letter-spacing: -.035em;
+}
+
+.report-subtitle {
+	margin: 8px 0 0;
+	color: #647795;
+	font-size: .94rem;
+}
+
+.year-control {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex: 0 0 auto;
+}
+
+.year-control label {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	margin: 0;
+	color: #536784;
+	font-size: .84rem;
+	font-weight: 650;
+	white-space: nowrap;
+}
+
+.year-control .form-select {
+	min-width: 112px;
+	border-color: #d9e4f3;
+	border-radius: 9px;
+	padding: 10px 34px 10px 12px;
+	color: #1d3458;
+	font-weight: 700;
+	box-shadow: none;
+}
+
+.year-control .form-select:focus {
+	border-color: #3478f6;
+	box-shadow: 0 0 0 3px rgb(52 120 246/ 12%);
+}
+
+.report-message {
+	display: none;
+	margin-bottom: 16px;
+	padding: 10px 14px;
+	border-radius: 9px;
+	font-size: .87rem;
+}
+
+.report-message.is-visible {
+	display: block;
+	background: #eef4ff;
+	color: #315b9b;
+}
+
+.report-message.is-success {
+	background: #eaf8f0;
+	color: #20784b;
+}
+
+.report-message.is-error {
+	background: #fff0f0;
+	color: #b42332;
+}
+
+.summary-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 16px;
+	margin-bottom: 20px;
+}
+
+.summary-card, .report-card {
+	min-width: 0;
+	border: 1px solid #e1eaf5;
+	border-radius: 12px;
+	background: #fff;
+	box-shadow: 0 3px 12px rgb(29 62 105/ 3%);
+}
+
+.summary-card {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	min-height: 112px;
+	padding: 19px;
+}
+
+.summary-icon, .chart-icon {
+	display: flex;
+	flex: 0 0 auto;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	border-radius: 50%;
+}
+
+.summary-icon {
+	width: 48px;
+	height: 48px;
+	font-size: 1.2rem;
+}
+
+.icon-green {
+	background: #2fb875;
+}
+
+.icon-blue {
+	background: #3478f6;
+}
+
+.icon-orange {
+	background: #ff9f1c;
+}
+
+.icon-teal {
+	background: #12b8b0;
+}
+
+.icon-purple {
+	background: #9856df;
+}
+
+.summary-copy {
+	min-width: 0;
+}
+
+.summary-copy p {
+	margin: 0 0 5px;
+	color: #536784;
+	font-size: .81rem;
+	font-weight: 650;
+}
+
+.summary-copy h2 {
+	overflow-wrap: anywhere;
+	margin: 0;
+	color: #172b4d;
+	font-size: clamp(1.05rem, 1.35vw, 1.45rem);
+	font-weight: 800;
+	line-height: 1.25;
+}
+
+.summary-copy span {
+	display: block;
+	margin-top: 7px;
+	color: #7184a1;
+	font-size: .76rem;
+}
+
+.charts-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+	gap: 18px;
+	margin-bottom: 18px;
+}
+
+.report-card {
+	padding: 19px;
+}
+
+.card-heading {
+	display: flex;
+	align-items: center;
+	gap: 11px;
+	margin-bottom: 17px;
+}
+
+.chart-icon {
+	width: 38px;
+	height: 38px;
+	font-size: 1rem;
+}
+
+.card-heading h2 {
+	margin: 0;
+	color: #1b3154;
+	font-size: 1rem;
+	font-weight: 750;
+}
+
+.card-heading p {
+	margin: 4px 0 0;
+	color: #7184a1;
+	font-size: .78rem;
+}
+
+.chart-container {
+	position: relative;
+	width: 100%;
+	min-width: 0;
+}
+
+.chart-container-tall {
+	height: 255px;
+}
+
+.donut-layout {
+	display: grid;
+	grid-template-columns: minmax(145px, .9fr) minmax(0, 1.1fr);
+	align-items: center;
+	gap: 14px;
+	min-height: 220px;
+}
+
+.donut-container {
+	height: 220px;
+	max-width: 270px;
+	margin: 0 auto;
+}
+
+.report-legend {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	min-width: 0;
+}
+
+.legend-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto auto;
+	align-items: center;
+	gap: 9px;
+	padding: 9px 0;
+	border-bottom: 1px solid #edf1f7;
+	font-size: .72rem;
+}
+
+.legend-row:last-child {
+	border-bottom: 0;
+}
+
+.legend-name {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+	color: #405675;
+}
+
+.legend-name i {
+	width: 10px;
+	height: 10px;
+	flex: 0 0 10px;
+	border-radius: 50%;
+	background: var(--legend-color);
+}
+
+.legend-name span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.legend-row strong {
+	color: #263d60;
+	font-size: .71rem;
+	font-weight: 700;
+	white-space: nowrap;
+}
+
+.legend-row small {
+	color: #7b8ba4;
+	font-size: .68rem;
+	text-align: right;
+	min-width: 36px;
+}
+
+.legend-empty {
+	color: #8290a6;
+	font-size: .82rem;
+	text-align: center;
+}
+
+.recent-expenses-card {
+	margin-bottom: 12px;
+}
+
+.report-table {
+	margin: 0;
+	color: #435875;
+	font-size: .8rem;
+	vertical-align: middle;
+}
+
+.report-table thead th {
+	padding: 12px 10px;
+	border-top: 0;
+	border-bottom: 1px solid #e2eaf5;
+	background: #f6f9fd;
+	color: #647795;
+	font-size: .72rem;
+	font-weight: 750;
+	white-space: nowrap;
+}
+
+.report-table tbody td {
+	padding: 12px 10px;
+	border-color: #edf1f7;
+	white-space: nowrap;
+}
+
+.report-table tbody tr:hover {
+	background: #f8fbff;
+}
+
+.expense-title-cell {
+	color: #21395e;
+	font-weight: 650;
+}
+
+.amount-cell {
+	color: #1d3458;
+	font-weight: 750;
+}
+
+.payment-pill {
+	display: inline-block;
+	padding: 4px 8px;
+	border-radius: 6px;
+	background: #edf4ff;
+	color: #315b9b;
+	font-size: .72rem;
+	font-weight: 650;
+}
+
+.empty-state {
+	padding: 28px !important;
+	color: #8290a6;
+	text-align: center;
+}
+
+@media ( max-width : 1200px) {
+	.yearly-report-page .content-wrapper {
+		padding: 22px;
+	}
+	.summary-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.charts-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.donut-layout {
+		grid-template-columns: minmax(180px, .8fr) minmax(0, 1.2fr);
+	}
+}
+
+@media ( max-width : 640px) {
+	.yearly-report-page .content-wrapper {
+		padding: 14px;
+	}
+	.report-heading {
+		align-items: stretch;
+		flex-direction: column;
+		gap: 16px;
+	}
+	.year-control {
+		justify-content: space-between;
+	}
+	.year-control .form-select {
+		flex: 0 0 120px;
+	}
+	.summary-grid {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 11px;
+	}
+	.summary-card {
+		min-height: 94px;
+		padding: 15px;
+	}
+	.report-card {
+		padding: 14px;
+	}
+	.donut-layout {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.donut-container {
+		width: 100%;
+		max-width: 250px;
+		height: 210px;
+	}
+	.report-legend {
+		padding: 0 4px;
+	}
+	.chart-container-tall {
+		height: 230px;
+	}
+	.card-heading h2 {
+		font-size: .94rem;
+	}
+}

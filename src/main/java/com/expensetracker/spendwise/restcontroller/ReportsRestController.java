@@ -56,7 +56,6 @@ public class ReportsRestController {
 			YearMonth ym = YearMonth.of(year, month);
 			Date start = Date.from(ym.atDay(1).atStartOfDay(ZONE).toInstant());
 			Date end = Date.from(ym.plusMonths(1).atDay(1).atStartOfDay(ZONE).toInstant());
-			System.out.println("Start Date: "+start+"\nEnd Date: "+end);
 			
 			List<ExpenseReportDto> rows = expenseRepository
 					.findMonthlyExpenses(loggedInUser.getName(), start, end)
@@ -70,6 +69,38 @@ public class ReportsRestController {
 			logger.error("Failed to load monthly report for {} ({}-{})", loggedInUser.getName(), year, month, e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomJsonResponse(null,
 					CustomStatus.ERROR_MSG, CustomStatus.ERROR_CODE, CustomStatus.ERROR));
+		}
+	}
+	
+	@GetMapping("/yearly")
+	public ResponseEntity<CustomJsonResponse> annualExpenseReport(@RequestParam("year") String year, Authentication auth){
+		
+		logger.info("Yearly report data requested for {}", year);
+		Integer intYear = Integer.parseInt(year);
+		if(intYear < 2000 || intYear > Year.now(ZONE).getValue()+1) {
+			return ResponseEntity.badRequest().body(new CustomJsonResponse(null,
+                    "Invalid year", CustomStatus.ERROR_CODE, CustomStatus.ERROR));
+		}
+		User loggedInUser = (User) auth.getPrincipal();
+		
+		try {
+			LocalDate startDate = LocalDate.of(intYear, 1, 1);
+	        LocalDate endDate = startDate.plusYears(1);
+	        Date start = Date.from(startDate.atStartOfDay(ZONE).toInstant());
+	        Date end = Date.from(endDate.atStartOfDay(ZONE).toInstant());
+	        
+	        List<ExpenseReportDto> rows = expenseRepository
+	                .findMonthlyExpenses(loggedInUser.getName(), start, end)
+	                .stream().map(this::toDto)
+	                .collect(Collectors.toList());
+
+	        return ResponseEntity.ok(new CustomJsonResponse(rows,CustomStatus.SUCCESS_MSG,CustomStatus.OK_CODE,CustomStatus.OK));
+		} catch (Exception e) {
+			logger.error("Failed to load yearly report for {} ({})",loggedInUser.getName(),year,e);
+
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+	                new CustomJsonResponse(null, CustomStatus.ERROR_MSG, CustomStatus.ERROR_CODE, CustomStatus.ERROR)
+	        );
 		}
 	}
 	

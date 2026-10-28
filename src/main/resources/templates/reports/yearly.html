@@ -1,24 +1,191 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-	<meta name="_csrf" th:content="${_csrf.token}">
-	<meta name="_csrf_header" th:content="${_csrf.headerName}">
-	<title>SpendWise - Annual Report</title>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" th:content="${_csrf != null ? _csrf.token : ''}">
+    <meta name="_csrf_header" th:content="${_csrf != null ? _csrf.headerName : ''}">
+    <title>Yearly Expense Report | SpendWise</title>
 	<!-- Common Head -->
 	<th:block th:replace="~{fragments/header :: header}"></th:block>
-	<link rel="stylesheet" th:href="@{/css/categories.css}">
+	<link rel="stylesheet" th:href="@{/css/yearly-report.css}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<div class="app-wrapper">
-
-		<!-- ================= NAVBAR ================= -->
+	<div class="app-wrapper">
 		<div th:replace="~{fragments/navbar :: navbar}"></div>
-
-		<!-- ================= SIDEBAR ================= -->
 		<div th:replace="~{fragments/sidebar :: sidebar}"></div>
-		
-		<!-- ================= FOOTER ================= -->
+
+		<main class="app-main yearly-report-page">
+			<div class="content-wrapper">
+				<section class="report-heading">
+					<div>
+						<p class="eyebrow">SPENDWISE ANNUAL ANALYTICS</p>
+						<h1>Annual Expense Report</h1>
+						<p class="report-subtitle">Understand your spending across
+							months, categories and payment methods.</p>
+					</div>
+					<div class="year-control">
+						<label for="yearSelect"><i class="bi bi-calendar3"></i>
+							Report year</label> <select id="yearSelect" class="form-select"
+							aria-label="Select report year">
+							<option
+								th:each="y : ${#numbers.sequence(T(java.time.Year).now().getValue(), 2020, -1)}"
+								th:value="${y}" th:text="${y}"
+								th:selected="${y == T(java.time.Year).now().getValue()}">2026</option>
+						</select>
+					</div>
+				</section>
+
+				<div id="reportMessage" class="report-message" role="status" aria-live="polite"></div>
+				<section class="summary-grid" aria-label="Yearly expense summary">
+					<article class="summary-card">
+						<div class="summary-icon icon-green">
+							<i class="bi bi-wallet2"></i>
+						</div>
+						<div class="summary-copy">
+							<p>Total Expenses</p>
+							<h2 id="totalExpenses">₹0.00</h2>
+							<span id="totalYearLabel">For selected year</span>
+						</div>
+					</article>
+					<article class="summary-card">
+						<div class="summary-icon icon-blue">
+							<i class="bi bi-graph-up-arrow"></i>
+						</div>
+						<div class="summary-copy">
+							<p>Highest Month</p>
+							<h2 id="highestMonth">—</h2>
+							<span id="highestMonthAmount">₹0.00</span>
+						</div>
+					</article>
+					<article class="summary-card">
+						<div class="summary-icon icon-orange">
+							<i class="bi bi-tags"></i>
+						</div>
+						<div class="summary-copy">
+							<p>Top Category</p>
+							<h2 id="topCategory">—</h2>
+							<span id="topCategoryAmount">₹0.00</span>
+						</div>
+					</article>
+					<article class="summary-card">
+						<div class="summary-icon icon-teal">
+							<i class="bi bi-credit-card"></i>
+						</div>
+						<div class="summary-copy">
+							<p>Top Payment Method</p>
+							<h2 id="topPaymentMethod">—</h2>
+							<span id="topPaymentAmount">₹0.00</span>
+						</div>
+					</article>
+				</section>
+
+				<section class="charts-grid">
+					<article class="report-card monthly-trend-card">
+						<div class="card-heading">
+							<div class="chart-icon icon-blue">
+								<i class="bi bi-bar-chart-line"></i>
+							</div>
+							<div>
+								<h2>Monthly Expense Trend</h2>
+								<p id="monthlyTrendSubtitle">Total expense for each month</p>
+							</div>
+						</div>
+						<div class="chart-container chart-container-tall">
+							<canvas id="yearlyMonthlyChart" aria-label="Monthly expenses bar chart"></canvas>
+						</div>
+					</article>
+					<article class="report-card">
+						<div class="card-heading">
+							<div class="chart-icon icon-green">
+								<i class="bi bi-pie-chart"></i>
+							</div>
+							<div>
+								<h2>Expenses by Category</h2>
+								<p>Total expense by category for selected year</p>
+							</div>
+						</div>
+						<div class="donut-layout">
+							<div class="chart-container donut-container">
+								<canvas id="yearlyCategoryChart" aria-label="Expenses by category doughnut chart"></canvas>
+							</div>
+							<div id="categoryLegend" class="report-legend"></div>
+						</div>
+					</article>
+					<article class="report-card">
+						<div class="card-heading">
+							<div class="chart-icon icon-purple">
+								<i class="bi bi-diagram-3"></i>
+							</div>
+							<div>
+								<h2>Expenses by Subcategory</h2>
+								<p>Total expense by subcategory for selected year</p>
+							</div>
+						</div>
+						<div class="donut-layout">
+							<div class="chart-container donut-container">
+								<canvas id="yearlySubcategoryChart" aria-label="Expenses by subcategory doughnut chart"></canvas>
+							</div>
+							<div id="subcategoryLegend" class="report-legend"></div>
+						</div>
+					</article>
+					<article class="report-card">
+						<div class="card-heading">
+							<div class="chart-icon icon-blue">
+								<i class="bi bi-credit-card-2-front"></i>
+							</div>
+							<div>
+								<h2>Expenses by Payment Method</h2>
+								<p>Total expense by payment method for selected year</p>
+							</div>
+						</div>
+						<div class="donut-layout">
+							<div class="chart-container donut-container">
+								<canvas id="yearlyPaymentChart" aria-label="Expenses by payment method doughnut chart"></canvas>
+							</div>
+							<div id="paymentLegend" class="report-legend"></div>
+						</div>
+					</article>
+				</section>
+
+				<section class="report-card recent-expenses-card">
+					<div class="card-heading">
+						<div class="chart-icon icon-teal">
+							<i class="bi bi-receipt"></i>
+						</div>
+						<div>
+							<h2>Recent Expense Summary</h2>
+							<p>Latest active expenses in the selected year</p>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table report-table">
+							<thead>
+								<tr>
+									<th>Date</th>
+									<th>Title</th>
+									<th>Category</th>
+									<th>Subcategory</th>
+									<th>Payment Method</th>
+									<th class="text-end">Amount</th>
+								</tr>
+							</thead>
+							<tbody id="recentExpensesBody">
+								<tr>
+									<td colspan="6" class="empty-state">Select a year to load
+										your report.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</section>
+			</div>
+		</main>
 		<div th:replace="~{fragments/footer :: footer}"></div>
-</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+	<script th:src="@{/js/yearly-report.js}"></script>
 </body>
 </html>
