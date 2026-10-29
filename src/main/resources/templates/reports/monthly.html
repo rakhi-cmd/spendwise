@@ -90,8 +90,16 @@
 								placeholder="Search expenses" aria-label="Search expenses">
 						</div>
 
-						<div class="mr-table-scroll">
+						<!-- Fixed table header -->
+						<div class="mr-table-header">
 							<table class="mr-table">
+								<colgroup>
+									<col style="width: 30%">
+									<col style="width: 17%">
+									<col style="width: 21%">
+									<col style="width: 16%">
+									<col style="width: 16%">
+								</colgroup>
 								<thead>
 									<tr>
 										<th>Expense</th>
@@ -101,6 +109,19 @@
 										<th>Amount</th>
 									</tr>
 								</thead>
+							</table>
+						</div>
+
+						<!-- Only this section scrolls -->
+						<div class="mr-table-scroll">
+							<table class="mr-table">
+								<colgroup>
+									<col style="width: 30%">
+									<col style="width: 17%">
+									<col style="width: 21%">
+									<col style="width: 16%">
+									<col style="width: 16%">
+								</colgroup>
 								<tbody id="monthlyExpenseTableBody"></tbody>
 							</table>
 						</div>

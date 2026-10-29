@@ -182,83 +182,109 @@
 							</div>
 						</div>
 						<!-- ================= TABLE ================= -->
-						<div class="table-responsive expense-table-wrapper">
-							<table class="table expense-table align-middle">
-								<thead>
-									<tr>
-										<th>Date</th>
-										<th>Expense</th>
-										<th>Category</th>
-										<th>Payment Method</th>
-										<th class="text-end">Amount</th>
-										<th>Status</th>
-										<th class="text-center">Actions</th>
-									</tr>
-								</thead>
-								<tbody id="expenseTableBody">
-									<!-- Row 1 -->
-									<tr th:each="expense : ${expenseList}">
-										<td>
-											<span class="expense-date" th:text="${#dates.format(expense.expenseDate, 'dd MMM yyyy')}"> </span>
-										</td>
-										<td>
-											<div class="expense-name-wrapper">
-												<div>
-													<strong th:text="${expense.title}"></strong> 
-													<small th:text="${expense.description}"></small>
-												</div>
-											</div>
-										</td>
-										<td>
-											<span class="category-badge food-badge" th:text="${expense.category.name}"></span>
-										</td>
-										<td>
-											<span class="payment-method" th:text="${#strings.replace(expense.paymentMethod, '_', ' ')}"> 
-												<i class="bi bi-phone me-1"></i>
-											</span>
-										</td>
-										<td class="text-end">
-											<strong class="expense-amount" 
-												th:text="${'₹' + #numbers.formatDecimal(expense.amount, 1, 'COMMA', 2, 'POINT')}">
-											</strong>
-										</td>
-										<td class="text-center">
-											<span class="status-badge active" th:if="${expense.status}"> 
-												<span></span> Active
-											</span> 
-											<!-- Inactive --> 
-											<span class="status-badge inactive" th:unless="${expense.status}"> 
-												<span></span> Inactive
-											</span>
-										</td>
-										<td>
-											<div class="expense-actions">
-												<button type="button" class="action-btn view-btn"
-													data-bs-toggle="modal" data-bs-target="#viewExpenseModal"
-													title="View"
-													th:attr="data-title=${expense.title},
-                 									data-date=${#dates.format(expense.expenseDate, 'dd MMM yyyy')},
-                 									data-amount=${expense.amount},
-                 									data-category=${expense.category.name},
-                 									data-payment=${expense.paymentMethod},
-                 									data-description=${expense.description}">
-													<i class="bi bi-eye"></i>
-												</button>
-												<!--  <button type="button" class="action-btn edit-btn"
-													data-bs-toggle="modal" data-bs-target="#editExpenseModal" title="Edit">
-													<i class="bi bi-pencil"></i>
-												</button>-->
+						<div class="expense-table-container">
+							<!-- Fixed table header: no vertical scrollbar -->
+							<div class="expense-table-header">
+								<table class="table expense-table align-middle mb-0">
+									<colgroup>
+										<col style="width: 11%">
+										<col style="width: 25%">
+										<col style="width: 14%">
+										<col style="width: 18%">
+										<col style="width: 10%">
+										<col style="width: 10%">
+										<col style="width: 12%">
+									</colgroup>
 
-												<button type="button" class="action-btn delete-btn"
-													data-bs-toggle="modal" data-bs-target="#deleteExpenseModal" 
-													title="Delete" th:attr="data-expenseid=${expense.expenseId}">
-													<i class="bi bi-trash"></i>
-												</button>
-											</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+									<thead>
+										<tr>
+											<th>Date</th>
+											<th>Expense</th>
+											<th>Category</th>
+											<th>Payment Method</th>
+											<th class="text-end">Amount</th>
+											<th class="text-center">Status</th>
+											<th class="text-center">Actions</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+
+							<!-- Only table rows scroll -->
+							<div class="expense-table-body">
+								<table class="table expense-table align-middle mb-0">
+									<colgroup>
+										<col style="width: 11%">
+										<col style="width: 25%">
+										<col style="width: 14%">
+										<col style="width: 18%">
+										<col style="width: 10%">
+										<col style="width: 10%">
+										<col style="width: 12%">
+									</colgroup>
+
+									<tbody id="expenseTableBody">
+										<tr th:each="expense : ${expenseList}">
+											<td><span class="expense-date"
+												th:text="${#dates.format(expense.expenseDate, 'dd MMM yyyy')}"></span>
+											</td>
+
+											<td>
+												<div class="expense-name-wrapper">
+													<div>
+														<strong th:text="${expense.title}"></strong> <small
+															th:text="${expense.description}"></small>
+													</div>
+												</div>
+											</td>
+
+											<td><span class="category-badge food-badge"
+												th:text="${expense.category.name}"></span></td>
+
+											<td><span class="payment-method"
+												th:text="${#strings.replace(expense.paymentMethod, '_', ' ')}">
+													<i class="bi bi-phone me-1"></i>
+											</span></td>
+
+											<td class="text-end"><strong class="expense-amount"
+												th:text="${'₹' + #numbers.formatDecimal(expense.amount, 1, 'COMMA', 2, 'POINT')}">
+											</strong></td>
+
+											<td class="text-center"><span
+												class="status-badge active" th:if="${expense.status == 1}">
+													<span></span> Active
+											</span> <span class="status-badge inactive"
+												th:unless="${expense.status == 1}"> <span></span>
+													Inactive
+											</span></td>
+
+											<td>
+												<div class="expense-actions">
+													<button type="button" class="action-btn view-btn"
+														data-bs-toggle="modal" data-bs-target="#viewExpenseModal"
+														title="View"
+														th:attr="data-title=${expense.title},
+                                             data-date=${#dates.format(expense.expenseDate, 'dd MMM yyyy')},
+                                             data-amount=${expense.amount},
+                                             data-category=${expense.category.name},
+                                             data-payment=${expense.paymentMethod},
+                                             data-description=${expense.description}">
+														<i class="bi bi-eye"></i>
+													</button>
+
+													<button type="button" class="action-btn delete-btn"
+														data-bs-toggle="modal"
+														data-bs-target="#deleteExpenseModal" title="Delete"
+														th:attr="data-expenseid=${expense.expenseId}">
+														<i class="bi bi-trash"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
 						</div>
 						<!-- ================= TABLE FOOTER ================= -->
 						<div class="expense-table-footer">

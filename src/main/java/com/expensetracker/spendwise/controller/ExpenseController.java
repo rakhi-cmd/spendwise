@@ -52,58 +52,6 @@ public class ExpenseController {
 		
 		//Load expenses
 		List<Expense> expenseList = expenseRepo.findAllByOrderByExpenseDateDesc();
-		
-		// Initialize summary values
-		/*
-		 * BigDecimal totalExpenses = BigDecimal.ZERO; BigDecimal monthlyExpenses =
-		 * BigDecimal.ZERO; BigDecimal todayExpenses = BigDecimal.ZERO;
-		 * 
-		 * Map<String, BigDecimal> categoryTotals = new HashMap<>();
-		 * 
-		 * // Get today's date Date today = new Date();
-		 * 
-		 * // Get start of today Calendar calendar = Calendar.getInstance();
-		 * calendar.setTime(today); calendar.set(Calendar.HOUR_OF_DAY, 0);
-		 * calendar.set(Calendar.MINUTE, 0); calendar.set(Calendar.SECOND, 0);
-		 * calendar.set(Calendar.MILLISECOND, 0);
-		 * 
-		 * Date todayStart = calendar.getTime();
-		 * 
-		 * // Get start of tomorrow calendar.add(Calendar.DAY_OF_MONTH, 1); Date
-		 * tomorrowStart = calendar.getTime();
-		 * 
-		 * // Get start of current month calendar.setTime(todayStart);
-		 * calendar.set(Calendar.DAY_OF_MONTH, 1); Date monthStart = calendar.getTime();
-		 * 
-		 * // Get start of next month calendar.add(Calendar.MONTH, 1); Date
-		 * nextMonthStart = calendar.getTime();
-		 * 
-		 * for(Expense expense : expenseList) { BigDecimal amount = expense.getAmount()
-		 * != null ? expense.getAmount() : BigDecimal.ZERO; Date expenseDate =
-		 * expense.getExpenseDate();
-		 * 
-		 * //Total Expenses totalExpenses = totalExpenses.add(amount);
-		 * 
-		 * if(expenseDate != null) { //2. This month expense
-		 * if(!expenseDate.before(monthStart) && expenseDate.before(nextMonthStart)) {
-		 * monthlyExpenses = monthlyExpenses.add(amount);
-		 * 
-		 * // Calculate category totals for this month if (expense.getCategory() !=
-		 * null) {
-		 * 
-		 * String categoryName = expense.getCategory().getName();
-		 * categoryTotals.merge(categoryName, amount, BigDecimal::add); } } // 3.
-		 * Today's expenses if (!expenseDate.before(todayStart) &&
-		 * expenseDate.before(tomorrowStart)) {
-		 * 
-		 * todayExpenses = todayExpenses.add(amount); } } } // 4. Find top category
-		 * String topCategory = "-"; BigDecimal topCategoryAmount = BigDecimal.ZERO;
-		 * 
-		 * for (Map.Entry<String, BigDecimal> entry : categoryTotals.entrySet()) {
-		 * 
-		 * if (entry.getValue().compareTo(topCategoryAmount) > 0) { topCategory =
-		 * entry.getKey(); topCategoryAmount = entry.getValue(); } }
-		 */
 		// 3. Calculate date boundaries using Date and Calendar
 		Date today = new Date();
 

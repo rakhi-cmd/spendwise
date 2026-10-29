@@ -366,6 +366,55 @@
 	text-align: center;
 }
 
+/* Fixed header container */
+.yearly-table-header {
+    width: 100%;
+    overflow: hidden;
+    background: #f6f9fd;
+}
+
+/* Scrollable rows only */
+.yearly-table-scroll {
+    height: 350px;
+    overflow-y: auto;
+    overflow-x: auto;
+    scrollbar-gutter: stable;
+}
+
+/* Match header and body column widths */
+.yearly-table-header .report-table,
+.yearly-table-scroll .report-table {
+    width: 100%;
+    table-layout: fixed;
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* Header styling remains consistent with your existing theme */
+.yearly-table-header .report-table thead th {
+    background: #f6f9fd;
+    border-bottom: 1px solid #e2eaf5;
+}
+
+/* Scrollbar styling */
+.yearly-table-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.yearly-table-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.yearly-table-scroll::-webkit-scrollbar-thumb {
+    background: #b8b8b8;
+    border-radius: 8px;
+}
+
+.yearly-table-scroll::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}
+
 @media ( max-width : 1200px) {
 	.yearly-report-page .content-wrapper {
 		padding: 22px;

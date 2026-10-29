@@ -5,9 +5,7 @@ body.login-background {
 	background-position: center;
 	background-repeat: no-repeat;
 }
-/* =====================================================
-   SPENDWISE SIGNUP PAGE
-===================================================== */
+/* ============ SPENDWISE SIGNUP PAGE ============== */
 .signup-page {
 	min-height: 100vh;
 	background: #f5f7fb;
@@ -17,9 +15,7 @@ body.login-background {
 	padding: 30px;
 }
 
-/* =====================================================
-   MAIN CONTAINER
-===================================================== */
+/* ================ MAIN CONTAINER ====================== */
 .signup-container {
 	width: 100%;
 	max-width: 1100px;
@@ -31,9 +27,7 @@ body.login-background {
 	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.10);
 }
 
-/* =====================================================
-   LEFT FORM SECTION
-===================================================== */
+/* ========== LEFT FORM SECTION ================ */
 .signup-form-section {
 	width: 52%;
 	display: flex;
@@ -47,9 +41,7 @@ body.login-background {
 	max-width: 430px;
 }
 
-/* =====================================================
-   BRAND
-===================================================== */
+/* ========== BRAND ========= */
 .brand {
 	display: flex;
 	align-items: center;
@@ -77,9 +69,7 @@ body.login-background {
 	letter-spacing: -0.5px;
 }
 
-/* =====================================================
-   HEADING
-===================================================== */
+/* ======== HEADING ============= */
 .signup-heading {
 	margin-bottom: 30px;
 }
@@ -99,9 +89,7 @@ body.login-background {
 	max-width: 380px;
 }
 
-/* =====================================================
-   FORM
-===================================================== */
+/* ======== FORM ========= */
 .form-group {
 	margin-bottom: 18px;
 }
@@ -141,9 +129,7 @@ body.login-background {
 	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
 }
 
-/* =====================================================
-   TERMS
-===================================================== */
+/* =========== TERMS ========= */
 .terms-section {
 	display: flex;
 	align-items: flex-start;
@@ -178,9 +164,7 @@ body.login-background {
 	text-decoration: underline;
 }
 
-/* =====================================================
-   REGISTER BUTTON
-===================================================== */
+/* =============== REGISTER BUTTON ========== */
 .register-btn {
 	width: 100%;
 	height: 50px;
@@ -205,9 +189,7 @@ body.login-background {
 	transform: translateY(0);
 }
 
-/* =====================================================
-   LOGIN SECTION
-===================================================== */
+/* ============= LOGIN SECTION =============== */
 .login-section {
 	text-align: center;
 	margin-top: 22px;
@@ -226,9 +208,7 @@ body.login-background {
 	text-decoration: underline;
 }
 
-/* =====================================================
-   RIGHT IMAGE SECTION
-===================================================== */
+/* ========== RIGHT IMAGE SECTION ======== */
 .signup-image-section {
 	width: 48%;
 	background: linear-gradient(135deg, #eef5ff 0%, #f8fbff 100%);
@@ -262,9 +242,7 @@ body.login-background {
 	left: -70px;
 }
 
-/* =====================================================
-   IMAGE CONTENT
-===================================================== */
+/* ========== IMAGE CONTENT =============== */
 .image-content {
 	width: 85%;
 	text-align: center;
@@ -292,9 +270,7 @@ body.login-background {
 	margin: auto;
 }
 
-/* =====================================================
-   ILLUSTRATION
-===================================================== */
+/* ========= ILLUSTRATION ================ */
 .signup-illustration {
 	width: 100%;
 	max-width: 450px;
@@ -303,9 +279,7 @@ body.login-background {
 	margin: 25px auto 0;
 }
 
-/* =====================================================
-   RESPONSIVE - TABLET
-===================================================== */
+/* ======== RESPONSIVE - TABLET ========== */
 @media ( max-width : 900px) {
 	.signup-container {
 		max-width: 700px;
@@ -322,9 +296,7 @@ body.login-background {
 	}
 }
 
-/* =====================================================
-   RESPONSIVE - MOBILE
-===================================================== */
+/* ============== RESPONSIVE - MOBILE ============= */
 @media ( max-width : 576px) {
 	.signup-page {
 		padding: 15px;
@@ -352,17 +324,13 @@ body.login-background {
 		height: 48px;
 	}
 }
-/* =========================
-   GENERAL
-========================= */
+/* ===== GENERAL ====== */
 body {
 	background-color: #f5f7fb;
 	font-family: Arial, sans-serif;
 }
 
-/* =========================
-   SIDEBAR
-========================= */
+/* ===== SIDEBAR ===== */
 .sidebar {
 	width: 250px;
 	min-height: 100vh;
@@ -429,25 +397,19 @@ body {
 	cursor: pointer;
 }
 
-/* =========================
-   MAIN CONTENT
-========================= */
+/* ======= MAIN CONTENT ===== */
 #page-content {
 	margin-left: 250px;
 	width: calc(100% - 250px);
 	min-height: 100vh;
 }
 
-/* =========================
-   NAVBAR
-========================= */
+/* ====== NAVBAR ====== */
 .navbar {
 	height: 70px;
 }
 
-/* =========================
-   DASHBOARD CARDS
-========================= */
+/* ====== DASHBOARD CARDS ====== */
 .dashboard-card {
 	background: #ffffff;
 	border-radius: 14px;
@@ -476,9 +438,7 @@ body {
 	font-size: 24px;
 }
 
-/* =========================
-   CARDS
-========================= */
+/* ====== CARDS ======== */
 .card {
 	border-radius: 14px;
 }
@@ -487,9 +447,7 @@ body {
 	border-radius: 14px 14px 0 0 !important;
 }
 
-/* =========================
-   QUICK ACTIONS
-========================= */
+/* ======= QUICK ACTIONS ===== */
 .quick-action {
 	display: flex;
 	align-items: center;

@@ -51,8 +51,8 @@ public class SecurityConfig {
 						 */
 						.requestMatchers("/", "/index", "/login", "/signup","/403","/register").permitAll()
 						
-						.requestMatchers("/profile","/expense","/categories","/reports/**").authenticated()
-						
+						.requestMatchers("/profile","/expense","/categories").authenticated()
+						.requestMatchers("/reports/**").hasRole("USER")
 
 						/*
 						 * Static resources

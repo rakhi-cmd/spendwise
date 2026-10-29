@@ -11,7 +11,7 @@ spring:
   jpa:
     database: mysql
     open-in-view: false
-    show-sql: false
+    show-sql: true
     generate-ddl: true
 
     hibernate:

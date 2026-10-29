@@ -1,609 +1,176 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpendWise - Dashboard</title>
-    <!-- Common Head --> 
-    <th:block th:replace="~{fragments/header :: header}"> </th:block>
-    <!-- SpendWise Admin Layout -->
-    <link rel="stylesheet" th:href="@{/css/admin-layout.css}">
-    <!-- Dashboard-specific CSS -->
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SpendWise - Dashboard</title>
+	<th:block th:replace="~{fragments/header :: header}"></th:block>
+	<link rel="stylesheet" th:href="@{/css/admin-layout.css}">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
 </head>
-
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
-    <div class="app-wrapper">
-        <!-- ========== TOP NAVBAR ========== -->
-        <div th:replace="~{fragments/navbar :: navbar}"></div>
-        <!-- ============ SIDEBAR ============= -->
-        <div th:replace="~{fragments/sidebar :: sidebar}"></div>
-        <!-- =========== MAIN CONTENT ========= -->
-        <main class="app-main">
-            <!-- PAGE HEADER -->
-            <div class="app-content-header">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <h3 class="mb-0">Dashboard</h3>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-end">
-                                <li class="breadcrumb-item">
-                                    <a th:href="@{/dashboard}"> Home </a>
-                                </li>
-                                <li class="breadcrumb-item active"> Dashboard </li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ============== PAGE CONTENT ========== -->
-            <div class="app-content">
-                <div class="container-fluid">
-                    <!-- ============== ADMIN DASHBOARD visible only to ADMIN ============== -->
-                    <div sec:authorize="hasRole('ADMIN')">
-                        <!-- ============ ADMIN STATISTICS ============ -->
-                        <div class="row">
-                            <!-- USERS -->
-                            <div class="col-lg-3 col-md-6 col-12">
-                                <div class="small-box text-bg-primary">
-                                    <div class="inner">
-                                        <h3 th:text="${totalUsers}"> 0 </h3>
-                                        <p>Total Users</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="bi bi-people"></i>
-                                    </div>
-                                    <a th:href="@{/admin/users}" class="small-box-footer"> View Users
-                                    	<i class="bi bi-arrow-right"></i>
-                                	</a>
-                                </div>
-                            </div>
-                            <!-- EXPENSES -->
-                            <div class="col-lg-3 col-md-6 col-12">
-                                <div class="small-box text-bg-success">
-                                    <div class="inner">
-                                        <h3>
-                                        	₹<span th:text="${totalExpenses}"> 0 </span>
-                                    	</h3>
-                                        <p>Total Expenses</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="bi bi-wallet2"></i>
-                                    </div>
-                                    <a th:href="@{/expense}" class="small-box-footer"> View Expenses
-                                    	<i class="bi bi-arrow-right"></i>
-                                	</a>
-                                </div>
-                            </div>
-                            <!-- CATEGORIES -->
-                            <div class="col-lg-3 col-md-6 col-12">
-                                <div class="small-box text-bg-warning">
-                                    <div class="inner">
-                                        <h3 th:text="${totalCategories}"> </h3>
-                                        <p>Categories</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="bi bi-tags"></i>
-                                    </div>
-                                    <a th:href="@{/categories}" class="small-box-footer"> View Categories
-                                    	<i class="bi bi-arrow-right"></i>
-                                	</a>
-                                </div>
-                            </div>
-                            <!-- MONTHLY EXPENSE -->
-                            <div class="col-lg-3 col-md-6 col-12">
-                                <div class="small-box text-bg-danger">
-                                    <div class="inner">
-                                        <h3>
-                                        	₹<span th:text="${monthlyExpenses}"> 0</span>
-                                    	</h3>
-                                        <p>This Month</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="bi bi-graph-up"></i>
-                                    </div>
-                                    <a href="#" class="small-box-footer"> View Report
-                                    	<i class="bi bi-arrow-right"></i>
-                                	</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ============ ADMIN WELCOME =========== -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title"> Welcome to SpendWise </h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <h4>Admin Dashboard</h4>
-                                        <p class="mb-0">
-                                            Manage users, expenses, categories and financial reports from here.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ========= ADMIN RECENT ACTIVITY ========= -->
-                        <div class="row mt-3">
-                            <!-- RECENT EXPENSES -->
-                            <div class="col-md-8">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title"> Recent Expenses </h3>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>User</th>
-                                                        <th>Category</th>
-                                                        <th>Amount</th>
-                                                        <th>Date</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <!-- Later replace these static rows with th:each from controller -->
-                                                    <tr>
-                                                        <td>Rahul</td>
-
-                                                        <td>Food</td>
-
-                                                        <td>₹500</td>
-
-                                                        <td>21 Sep 2026</td>
-
-                                                    </tr>
-
-                                                    <tr>
-
-                                                        <td>Priya</td>
-
-                                                        <td>Shopping</td>
-
-                                                        <td>₹1,500</td>
-
-                                                        <td>20 Sep 2026</td>
-
-                                                    </tr>
-
-                                                    <tr>
-
-                                                        <td>Amit</td>
-
-                                                        <td>Transport</td>
-
-                                                        <td>₹300</td>
-
-                                                        <td>20 Sep 2026</td>
-
-                                                    </tr>
-
-                                                </tbody>
-
-                                            </table>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <!-- QUICK ACTIONS -->
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title"> Quick Actions </h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <a th:href="@{/admin/users}" class="btn btn-primary w-100 mb-2">
-                                            <i class="bi bi-people me-2"></i> Manage Users
-                                        </a>
-                                        <a th:href="@{/expense}" class="btn btn-success w-100 mb-2">
-                                            <i class="bi bi-wallet2 me-2"></i> Manage Expenses
-                                        </a>
-                                        <a th:href="@{/categories}" class="btn btn-warning w-100 mb-2">
-                                            <i class="bi bi-tags me-2"></i> Manage Categories
-                                        </a>
-                                        <a href="#" class="btn btn-info w-100">
-                                            <i class="bi bi-bar-chart me-2"></i> View Reports
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- ============= USER DASHBOARD Visible only to USER =============== -->
-                    <div sec:authorize="hasRole('USER')">
-                        <!-- ============ USER STATISTICS ========== -->
-                        <div class="row">
-                            <!-- MY EXPENSES -->
-                            <div class="col-lg-3 col-md-6 col-12">
-                                <div class="small-box text-bg-primary">
-                                    <div class="inner">
-                                        <h3 th:text="${myTotalExpenses}">
-                                        0
-                                    </h3>
-
-                                        <p>My Expenses</p>
-
-                                    </div>
-
-                                    <div class="icon">
-
-                                        <i class="bi bi-wallet2"></i>
-
-                                    </div>
-
-                                    <a th:href="@{/expense}" class="small-box-footer">
-
-                                    View Expenses
-
-                                    <i class="bi bi-arrow-right"></i>
-
-                                </a>
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- THIS MONTH -->
-                            <div class="col-lg-3 col-md-6 col-12">
-
-                                <div class="small-box text-bg-success">
-
-                                    <div class="inner">
-
-                                        <h3>
-
-                                        ₹<span th:text="${myMonthlyExpenses}">
-                                            0
-                                        </span>
-
-                                    </h3>
-
-                                        <p>This Month</p>
-
-                                    </div>
-
-                                    <div class="icon">
-
-                                        <i class="bi bi-calendar-month"></i>
-
-                                    </div>
-
-                                    <a href="#" class="small-box-footer">
-
-                                    View Details
-
-                                    <i class="bi bi-arrow-right"></i>
-
-                                </a>
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- CATEGORIES -->
-                            <div class="col-lg-3 col-md-6 col-12">
-
-                                <div class="small-box text-bg-warning">
-
-                                    <div class="inner">
-
-                                        <h3 th:text="${myCategories}">
-                                        0
-                                    </h3>
-
-                                        <p>Categories Used</p>
-
-                                    </div>
-
-                                    <div class="icon">
-
-                                        <i class="bi bi-tags"></i>
-
-                                    </div>
-
-                                    <a th:href="@{/categories}" class="small-box-footer">
-
-                                    View Categories
-
-                                    <i class="bi bi-arrow-right"></i>
-
-                                </a>
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- BUDGET -->
-                            <div class="col-lg-3 col-md-6 col-12">
-
-                                <div class="small-box text-bg-danger">
-
-                                    <div class="inner">
-
-                                        <h3>
-
-                                        ₹<span th:text="${remainingBudget}">
-                                            0
-                                        </span>
-
-                                    </h3>
-
-                                        <p>Remaining Budget</p>
-
-                                    </div>
-
-                                    <div class="icon">
-
-                                        <i class="bi bi-piggy-bank"></i>
-
-                                    </div>
-
-                                    <a href="#" class="small-box-footer">
-
-                                    View Budget
-
-                                    <i class="bi bi-arrow-right"></i>
-
-                                </a>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- =========================================
-                         USER WELCOME
-                         ========================================= -->
-
-                        <div class="row">
-
-                            <div class="col-12">
-
-                                <div class="card">
-
-                                    <div class="card-header">
-
-                                        <h3 class="card-title">
-                                        Welcome to SpendWise
-                                    </h3>
-
-                                    </div>
-
-                                    <div class="card-body">
-
-                                        <h4>
-
-                                        Hello,
-                                        <span sec:authentication="name">
-                                            User
-                                        </span>
-
-                                    </h4>
-
-                                        <p class="mb-0">
-
-                                            Track your expenses, manage your budget and monitor your spending from your dashboard.
-
-                                        </p>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <!-- ============ USER RECENT EXPENSES =========== -->
-
-                        <div class="row mt-3">
-
-                            <!-- RECENT EXPENSES -->
-                            <div class="col-md-8">
-
-                                <div class="card">
-
-                                    <div class="card-header">
-
-                                        <h3 class="card-title">
-                                        My Recent Expenses
-                                    </h3>
-
-                                    </div>
-
-                                    <div class="card-body p-0">
-
-                                        <div class="table-responsive">
-
-                                            <table class="table table-hover mb-0">
-
-                                                <thead>
-
-                                                    <tr>
-
-                                                        <th>Category</th>
-
-                                                        <th>Amount</th>
-
-                                                        <th>Date</th>
-
-                                                    </tr>
-
-                                                </thead>
-
-                                                <tbody>
-
-                                                    <!--
-                                                Later replace with
-                                                th:each="${recentExpenses}"
-                                            -->
-
-                                                    <tr>
-
-                                                        <td>Food</td>
-
-                                                        <td>₹500</td>
-
-                                                        <td>21 Sep 2026</td>
-
-                                                    </tr>
-
-                                                    <tr>
-
-                                                        <td>Shopping</td>
-
-                                                        <td>₹1,500</td>
-
-                                                        <td>20 Sep 2026</td>
-
-                                                    </tr>
-
-                                                    <tr>
-
-                                                        <td>Transport</td>
-
-                                                        <td>₹300</td>
-
-                                                        <td>20 Sep 2026</td>
-
-                                                    </tr>
-
-                                                </tbody>
-
-                                            </table>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- QUICK ACTIONS -->
-                            <div class="col-md-4">
-
-                                <div class="card">
-
-                                    <div class="card-header">
-
-                                        <h3 class="card-title">
-                                        Quick Actions
-                                    </h3>
-
-                                    </div>
-
-                                    <div class="card-body">
-
-                                        <a th:href="@{/expense/add}" class="btn btn-primary w-100 mb-2">
-
-                                            <i class="bi bi-plus-circle me-2"></i> Add Expense
-
-                                        </a>
-
-
-                                        <a th:href="@{/expense}" class="btn btn-success w-100 mb-2">
-
-                                            <i class="bi bi-wallet2 me-2"></i> My Expenses
-
-                                        </a>
-
-
-                                        <a th:href="@{/categories}" class="btn btn-warning w-100 mb-2">
-
-                                            <i class="bi bi-tags me-2"></i> Categories
-
-                                        </a>
-
-
-                                        <a href="#" class="btn btn-info w-100">
-
-                                            <i class="bi bi-bar-chart me-2"></i> View Reports
-
-                                        </a>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- =====================================================
-                     FALLBACK
-                     If user has neither ADMIN nor USER role
-                     ===================================================== -->
-
-                    <div sec:authorize="!hasAnyRole('ADMIN','USER')">
-
-                        <div class="row">
-
-                            <div class="col-12">
-
-                                <div class="card">
-
-                                    <div class="card-header">
-
-                                        <h3 class="card-title">
-                                        Access Restricted
-                                    </h3>
-
-                                    </div>
-
-                                    <div class="card-body">
-
-                                        <p>
-                                            Your account does not have a valid dashboard role.
-                                        </p>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-            </div>
-
-        </main>
-
-
-        <!-- =========================================
-         FOOTER
-         ========================================= -->
-
-        <div th:replace="~{fragments/footer :: footer}"></div>
-
-    </div>
-    <!-- Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"> </script>
-    <!-- AdminLTE -->
-    <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/js/adminlte.min.js"> </script>
-    <!-- SpendWise JS -->
-    <script th:src="@{/js/admin-layout.js}"></script>
+	<div class="app-wrapper">
+		<!-- Existing navigation fragments are preserved. -->
+		<div th:replace="~{fragments/navbar :: navbar}"></div>
+		<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+		<main class="app-main spendwise-dashboard">
+			<div class="app-content">
+				<div class="container-fluid dashboard-container">
+					<header class="dashboard-heading">
+						<div>
+							<h1>Dashboard</h1>
+							<p>Here's an overview of your finances</p>
+						</div>
+						<div class="dashboard-period">
+							<i class="bi bi-calendar3"></i>
+							<span th:text="${dashboardPeriod} ?: 'Current month'">Current month</span>
+						</div>
+					</header>
+					<section sec:authorize="hasRole('ADMIN')" class="dashboard-section">
+						<div class="dashboard-kpi-grid">
+							<article class="dashboard-kpi kpi-blue">
+								<div class="kpi-icon">
+									<i class="bi bi-wallet2"></i>
+								</div>
+								<div class="kpi-label">Total Expenses</div>
+								<div class="kpi-value">
+									₹<span th:text="${#numbers.formatDecimal(totalExpenses, 1, 'COMMA', 2, 'POINT')}">0.00</span>
+								</div>
+								<div class="kpi-note">All active expenses</div>
+							</article>
+							<article class="dashboard-kpi kpi-green">
+								<div class="kpi-icon">
+									<i class="bi bi-calendar-day"></i>
+								</div>
+								<div class="kpi-label">Today's Spending</div>
+								<div class="kpi-value">
+									₹<span th:text="${#numbers.formatDecimal(todayExpenses, 1, 'COMMA', 2, 'POINT')}">0.00</span>
+								</div>
+								<div class="kpi-note">Spent today</div>
+							</article>
+							<article class="dashboard-kpi kpi-purple">
+								<div class="kpi-icon">
+									<i class="bi bi-calendar-month"></i>
+								</div>
+								<div class="kpi-label">This Month Spending</div>
+								<div class="kpi-value">
+									₹<span th:text="${#numbers.formatDecimal(monthlyExpenses, 1, 'COMMA', 2, 'POINT')}">0.00</span>
+								</div>
+								<div class="kpi-note" th:text="${currentMonthLabel}">Current month</div>
+							</article>
+							<article class="dashboard-kpi kpi-orange">
+								<div class="kpi-icon">
+									<i class="bi bi-tags"></i>
+								</div>
+								<div class="kpi-label">Active Categories</div>
+								<div class="kpi-value" th:text="${totalCategories}">0</div>
+								<div class="kpi-note">Available categories</div>
+							</article>
+						</div>
+					</section>
+					<section sec:authorize="hasRole('USER')" class="dashboard-section">
+						<div class="dashboard-kpi-grid">
+							<article class="dashboard-kpi kpi-blue">
+								<div class="kpi-icon">
+									<i class="bi bi-wallet2"></i>
+								</div>
+								<div class="kpi-label">Total Expenses</div>
+								<div class="kpi-value">
+									₹<span
+										th:text="${#numbers.formatDecimal(myTotalExpenses, 1, 'COMMA', 2, 'POINT')}">0.00</span>
+								</div>
+								<div class="kpi-note">Your active expenses</div>
+							</article>
+							<article class="dashboard-kpi kpi-green">
+								<div class="kpi-icon">
+									<i class="bi bi-calendar-day"></i>
+								</div>
+								<div class="kpi-label">Today's Spending</div>
+								<div class="kpi-value">
+									₹<span
+										th:text="${#numbers.formatDecimal(myTodayExpenses, 1, 'COMMA', 2, 'POINT')}">0.00</span>
+								</div>
+								<div class="kpi-note">Spent today</div>
+							</article>
+							<article class="dashboard-kpi kpi-purple">
+								<div class="kpi-icon">
+									<i class="bi bi-calendar-month"></i>
+								</div>
+								<div class="kpi-label">This Month Spending</div>
+								<div class="kpi-value">
+									₹<span
+										th:text="${#numbers.formatDecimal(myMonthlyExpenses, 1, 'COMMA', 2, 'POINT')}">0.00</span>
+								</div>
+								<div class="kpi-note" th:text="${currentMonthLabel}">Current
+									month</div>
+							</article>
+							<article class="dashboard-kpi kpi-orange">
+								<div class="kpi-icon">
+									<i class="bi bi-tags"></i>
+								</div>
+								<div class="kpi-label">Categories Used</div>
+								<div class="kpi-value" th:text="${myCategories}">0</div>
+								<div class="kpi-note">Categories with spending this month</div>
+							</article>
+						</div>
+					</section>
+					<div class="dashboard-chart-grid">
+						<section class="dashboard-panel monthly-panel">
+							<div class="panel-heading">
+								<h2>
+									Monthly Expenses <span>(Last 6 Months)</span>
+								</h2>
+							</div>
+							<div class="chart-area chart-area-monthly">
+								<canvas id="monthlyExpensesChart" aria-label="Monthly expenses chart"></canvas>
+							</div>
+						</section>
+						<section class="dashboard-panel category-panel">
+							<div class="panel-heading">
+								<h2>Expenses by Category</h2>
+							</div>
+							<div class="chart-area chart-area-doughnut">
+								<canvas id="categoryExpensesChart" aria-label="Expenses by category"></canvas>
+							</div>
+							<div id="categoryChartLegend" class="dashboard-legend"></div>
+						</section>
+						<section class="dashboard-panel subcategory-panel">
+							<div class="panel-heading">
+								<h2>Expenses by Subcategory</h2>
+							</div>
+							<div class="chart-area chart-area-horizontal">
+								<canvas id="subcategoryExpensesChart"
+									aria-label="Expenses by subcategory"></canvas>
+							</div>
+						</section>
+						<section class="dashboard-panel payment-panel">
+							<div class="panel-heading">
+								<h2>Payment Methods</h2>
+							</div>
+							<div class="chart-area chart-area-doughnut">
+								<canvas id="paymentMethodsChart" aria-label="Payment methods"></canvas>
+							</div>
+							<div id="paymentChartLegend" class="dashboard-legend"></div>
+						</section>
+					</div>
+				</div>
+			</div>
+		</main>
+		<div th:replace="~{fragments/footer :: footer}"></div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/js/adminlte.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script th:src="@{/js/admin-layout.js}"></script>
+	<script th:inline="javascript">
+		window.spendWiseDashboardData = {
+		 monthlyLabels: /*[[${monthlyLabels}]]*/ [], monthlyValues: /*[[${monthlyValues}]]*/ [],
+		 categoryLabels: /*[[${categoryLabels}]]*/ [], categoryValues: /*[[${categoryValues}]]*/ [],
+		 subcategoryLabels: /*[[${subcategoryLabels}]]*/ [], subcategoryValues: /*[[${subcategoryValues}]]*/ [],
+		 paymentLabels: /*[[${paymentLabels}]]*/ [], paymentValues: /*[[${paymentValues}]]*/ []
+		};
+</script>
+<script th:src="@{/js/dashboard.js}"></script>
 </body>
-
 </html>

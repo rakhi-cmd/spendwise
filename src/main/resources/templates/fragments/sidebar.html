@@ -39,7 +39,7 @@
 					</a>
 				</li>
 				<!-- REPORTS -->
-				<li class="nav-item">
+				<li class="nav-item" sec:authorize="hasRole('USER')">
 					<a href="#" class="nav-link"> 
 						<i class="nav-icon bi bi-bar-chart"></i>
 						<p>Reports <i class="nav-arrow bi bi-chevron-right"></i></p>

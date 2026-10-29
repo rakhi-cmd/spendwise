@@ -51,4 +51,43 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long>{
     List<Expense> findMonthlyExpenses(@Param("username") String username,
     		@Param("start") Date start,
     		@Param("end") Date end);
+    
+    @Query("SELECT COALESCE(SUM(e.amount), 0) FROM Expense e WHERE e.status = 1")
+    BigDecimal getActiveExpenseTotal();
+
+    @Query("""
+        SELECT COALESCE(SUM(e.amount), 0) FROM Expense e
+        WHERE e.status = 1 AND e.expenseDate >= :startDate AND e.expenseDate < :endDate
+        """)
+    BigDecimal getActiveExpensesBetweenDates(@Param("startDate") Date startDate,
+                                             @Param("endDate") Date endDate);
+
+    @Query("SELECT COALESCE(SUM(e.amount), 0) FROM Expense e WHERE e.user.id = :userId AND e.status = 1")
+    BigDecimal getActiveExpensesByUser(@Param("userId") Long userId);
+
+    @Query("""
+        SELECT COALESCE(SUM(e.amount), 0) FROM Expense e
+        WHERE e.user.id = :userId AND e.status = 1
+          AND e.expenseDate >= :startDate AND e.expenseDate < :endDate
+        """)
+    BigDecimal getActiveExpensesByUserBetweenDates(@Param("userId") Long userId,
+                                                   @Param("startDate") Date startDate,
+                                                   @Param("endDate") Date endDate);
+
+    @Query("""
+        SELECT COUNT(DISTINCT e.category.categoryId) FROM Expense e
+        WHERE e.user.id = :userId AND e.status = 1
+          AND e.expenseDate >= :startDate AND e.expenseDate < :endDate
+        """)
+    long countDistinctActiveCategoriesByUserBetweenDates(@Param("userId") Long userId,
+                                                         @Param("startDate") Date startDate,
+                                                         @Param("endDate") Date endDate);
+    
+    @EntityGraph(attributePaths = {"category", "subcategory"})
+    List<Expense> findByStatusAndExpenseDateGreaterThanEqualAndExpenseDateLessThanOrderByExpenseDateAsc(
+            int status, Date startDate, Date endDate);
+
+    @EntityGraph(attributePaths = {"category", "subcategory"})
+    List<Expense> findByUser_IdAndStatusAndExpenseDateGreaterThanEqualAndExpenseDateLessThanOrderByExpenseDateAsc(
+            Long userId, int status, Date startDate, Date endDate);
 }

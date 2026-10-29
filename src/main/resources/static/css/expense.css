@@ -341,9 +341,7 @@
 }
 
 
-/* =========================================================
-   DATE
-   ========================================================= */
+/* ======== DATE ========= */
 
 .expense-date {
     color: #6b7280;
@@ -352,9 +350,7 @@
 }
 
 
-/* =========================================================
-   CATEGORY BADGES
-   ========================================================= */
+/* ============ CATEGORY BADGES =============== */
 
 .category-badge {
     display: inline-flex;
@@ -386,9 +382,7 @@
 }
 
 
-/* =========================================================
-   PAYMENT METHOD
-   ========================================================= */
+/* =============== PAYMENT METHOD ============= */
 
 .payment-method {
     color: #6b7280;
@@ -397,9 +391,7 @@
 }
 
 
-/* =========================================================
-   AMOUNT
-   ========================================================= */
+/* ============ AMOUNT ======= */
 
 .expense-amount {
     color: #1f2937;
@@ -408,9 +400,7 @@
 }
 
 
-/* =========================================================
-   ACTION BUTTONS
-   ========================================================= */
+/* =========== ACTION BUTTONS ========= */
 
 .expense-actions {
     display: flex;
@@ -465,9 +455,7 @@
 }
 
 
-/* =========================================================
-   TABLE FOOTER
-   ========================================================= */
+/* =========== TABLE FOOTER ============ */
 
 .expense-table-footer {
     padding: 15px 20px;
@@ -518,9 +506,7 @@
 }
 
 
-/* =========================================================
-   MODALS
-   ========================================================= */
+/* ============= MODALS ============= */
 
 .expense-modal {
     border: 0;
@@ -604,9 +590,7 @@
 }
 
 
-/* =========================================================
-   VIEW EXPENSE MODAL
-   ========================================================= */
+/* =========== VIEW EXPENSE MODAL =========== */
 
 .expense-detail-header {
     display: flex;
@@ -677,9 +661,7 @@
 }
 
 
-/* =========================================================
-   DELETE MODAL
-   ========================================================= */
+/* ================= DELETE MODAL ================== */
 
 .delete-modal .modal-body {
     padding: 30px 25px;
@@ -718,9 +700,7 @@
 }
 
 
-/* =========================================================
-   BUTTONS
-   ========================================================= */
+/* ============ BUTTONS ============== */
 
 .expense-modal .btn {
     border-radius: 7px;
@@ -744,11 +724,71 @@
     border-color: #dc2626;
 }
 
+/* Main table container */
+.expense-table-container {
+	width: 100%;
+	overflow: hidden;
+}
 
-/* =========================================================
-   RESPONSIVE DESIGN
-   ========================================================= */
+/* Fixed header */
+.expense-table-header {
+	width: 100%;
+	overflow: hidden;
+	background: #f8f9fa;
+}
 
+/* Shared table layout keeps header and body columns aligned */
+.expense-table-header .expense-table, .expense-table-body .expense-table
+	{
+	width: 100%;
+	table-layout: fixed;
+	margin-bottom: 0;
+	border-collapse: separate;
+	border-spacing: 0;
+}
+
+/* Header appearance */
+.expense-table-header th {
+	background: #f8f9fa;
+	color: #6c757d;
+	font-weight: 600;
+	white-space: nowrap;
+	border-bottom: 1px solid #dee2e6;
+}
+
+/* Vertical scrollbar applies only to expense rows */
+.expense-table-body {
+	height: 450px;
+	overflow-y: auto;
+	overflow-x: auto;
+}
+
+/* Preserve your existing row separators */
+.expense-table-body td {
+	border-bottom: 1px solid #edf0f2;
+	vertical-align: middle;
+}
+
+/* Scrollbar styling */
+.expense-table-body::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+.expense-table-body::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+.expense-table-body::-webkit-scrollbar-thumb {
+	background: #b8b8b8;
+	border-radius: 8px;
+}
+
+.expense-table-body::-webkit-scrollbar-thumb:hover {
+	background: #888;
+}
+
+/* ============ RESPONSIVE DESIGN ================ */
 @media (max-width: 991.98px) {
 
     .expense-card-header {
